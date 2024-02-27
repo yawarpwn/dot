@@ -124,6 +124,9 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+# neovim
+export PATH=$PATH:/usr/bin/nvim
+
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
