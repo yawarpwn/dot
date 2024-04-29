@@ -5,6 +5,10 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
+        "lua",
+        "typescript",
+        "tsx",
+        "html",
         "astro",
         "css",
         "gitignore",
