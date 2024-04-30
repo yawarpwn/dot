@@ -1,0 +1,14 @@
+grep
+htop
+zoxide
+lazygit
+unzip
+unrar
+neovim
+wget
+neofetch
+base-devel
+rust-analyzer
+rustup
+exa
+
