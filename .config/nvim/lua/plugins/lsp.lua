@@ -14,6 +14,9 @@ return {
         "luacheck",
         "shellcheck",
         "shfmt",
+        "dprint",
+        "prettierd",
+        "astro-language-server",
       })
     end,
   },
@@ -163,10 +166,11 @@ return {
         ["markdown"] = { { "prettierd", "prettier" } },
         ["markdown.mdx"] = { { "prettierd", "prettier" } },
         ["css"] = { "prettierd" },
-        ["javascript"] = { "dprint" },
+        ["javascript"] = { "dprint", "prettierd", "prettier" },
         ["javascriptreact"] = { "dprint" },
-        ["typescript"] = { "dprint" },
+        ["typescript"] = { "dprint", "prettierd", "prettier" },
         ["typescriptreact"] = { "dprint" },
+        ["astro"] = { "prettierd", "prettier" },
       },
       formatters = {
         shfmt = {
