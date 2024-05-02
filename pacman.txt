@@ -10,7 +10,7 @@ neofetch
 base-devel
 rust-analyzer
 rustup
-brave-browser
 brave-browser-beta
 exa
-
+xsel
+ripgrep

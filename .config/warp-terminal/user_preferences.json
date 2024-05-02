@@ -1,18 +1,20 @@
 {
   "prefs": {
+    "AIAssistantRequestLimitInfo": "{\"limit\":40,\"num_requests_used_since_refresh\":6,\"next_refresh_time\":\"2024-05-28T00:29:01.749805Z\"}",
     "WelcomeTipsFeaturesUsed": "[{\"Hint\":\"BlockSelect\"},{\"Action\":\"CommandPalette\"},{\"Action\":\"WarpAI\"},{\"Action\":\"OpenWarpDrive\"},{\"Action\":\"ThemePicker\"},{\"Action\":\"SplitPane\"},{\"Hint\":\"CreateBlock\"},{\"Hint\":\"BlockAction\"}]",
+    "ExtraMetaKeys": "{\"left_alt\":true,\"right_alt\":false}",
+    "FontSize": "18.0",
+    "ChangelogVersions": "{\"v0.2024.04.23.08.01.stable_03\":true}",
+    "Theme": "\"Dark\"",
     "ExperimentId": "847da38a-c849-46dc-921e-bfd9f77bde58",
     "NotebookFontSize": "14.0",
-    "OpenFileEditor": "null",
-    "Theme": "\"Dark\"",
-    "ReceivedReferralTheme": "\"Inactive\"",
-    "AIAssistantRequestLimitInfo": "{\"limit\":40,\"num_requests_used_since_refresh\":5,\"next_refresh_time\":\"2024-05-28T00:29:01.749805Z\"}",
-    "AliasExpansionBannerSeen": "true",
     "HasAutoOpenedWelcomeFolder": "true",
+    "OpenWindowsAtCustomSize": "false",
     "AutosuggestionAcceptedCount": "2",
-    "ExtraMetaKeys": "{\"left_alt\":true,\"right_alt\":false}",
-    "FontSize": "17.0",
-    "ChangelogVersions": "{\"v0.2024.04.23.08.01.stable_03\":true}",
-    "EmacsBindingsBannerState": "\"Dismissed\""
+    "AliasExpansionBannerSeen": "true",
+    "EmacsBindingsBannerState": "\"Dismissed\"",
+    "ReceivedReferralTheme": "\"Inactive\"",
+    "OverrideOpacity": "84",
+    "OpenFileEditor": "null"
   }
 }
