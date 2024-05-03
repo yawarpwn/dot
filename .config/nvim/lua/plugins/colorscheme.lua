@@ -1,17 +1,10 @@
 return {
-  "lazyVim/lazyVim",
+  "folke/tokyonight.nvim",
   opts = {
-    colorscheme = "catppuccin",
+    transparent = true,
+    styles = {
+      sidebars = "transparent",
+      floats = "transparent",
+    },
   },
 }
-
--- return {
---   "catppuccin/nvim",
---   lazy = true,
---   name = "catppuccin",
---   opts = {
---     integrations = {
---       alpha = true,
---     },
---   },
--- }

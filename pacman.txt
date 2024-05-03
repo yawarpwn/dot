@@ -14,3 +14,4 @@ brave-browser-beta
 exa
 xsel
 ripgrep
+fish
