@@ -17,7 +17,6 @@ fish_add_path $NODE
 
 starship init fish | source
 zoxide init fish | source
-kk
 # export (cat env_file.txt |xargs -L 1)
 
 #exa

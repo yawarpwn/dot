@@ -1,3 +1,4 @@
+starship
 grep
 htop
 zoxide
