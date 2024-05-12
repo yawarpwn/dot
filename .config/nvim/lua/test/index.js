@@ -6,3 +6,5 @@ const fibunacci = (n) => {
   }
   return fibunacci(n - 1) + fibunacci(n - 2);
 };
+
+console.log(() => true)
