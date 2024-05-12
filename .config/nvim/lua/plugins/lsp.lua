@@ -1,9 +1,5 @@
 return {
   -- neodev
-  {
-    "folke/neodev.nvim",
-  },
-
   -- tools
   {
     "williamboman/mason.nvim",
@@ -16,7 +12,9 @@ return {
         "shfmt",
         "dprint",
         "prettierd",
+        "tailwindcss-language-server",
         "astro-language-server",
+        "css-lsp",
       })
     end,
   },
@@ -59,8 +57,8 @@ return {
         -- pyright = {
         --   enabled = false,
         -- },
-        rust_analyzer = {
-          settings = {
+        settings = {
+          rust_analyzer = {
             ["rust-analyzer"] = {
               procMacro = { enable = true },
               cargo = { allFeatures = true },

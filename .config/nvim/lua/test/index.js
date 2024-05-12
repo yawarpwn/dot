@@ -1,10 +1,8 @@
-const $ = (element) => document.querySelector(element);
-const getPower = () => {
-  console.loog("power");
-};
+const $ = (el) => document.querySelector(el);
 
-if ($list instanceof HTMLElement) {
-  $list.addEventListener("click", () => {
-    console.log("clicked");
-  });
-}
+const fibunacci = (n) => {
+  if (n < 2) {
+    return 1;
+  }
+  return fibunacci(n - 1) + fibunacci(n - 2);
+};

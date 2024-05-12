@@ -11,9 +11,6 @@ fish_add_path ~/.cargo/bin
 fish_add_path ~/.local/bin
 fish_add_path /bin
 
-#node
-set -gx NODE (which node)
-fish_add_path $NODE
 
 starship init fish | source
 zoxide init fish | source

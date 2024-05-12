@@ -1,0 +1,28 @@
+accent:
+  left: "#fc28a8"
+  right: "#7b008f" # "#f5e949"
+background: "#0c0a20"
+foreground: "#7984D1"
+details: "darker"
+terminal_colors:
+  normal:
+    black: "#283034"
+    red: "#ff0081"
+    green: "#a7da1e"
+    yellow: "#f7b83d"
+    blue: "#1ea8fc"
+    magenta: "#A875FF"
+    cyan: "#16f1fc"
+    white: "#f9faff"
+  bright:
+    black: "#435056"
+    red: "#ff2e97"
+    green: "#cbfc44"
+    yellow: "#ffd400"
+    blue: "#42c6ff"
+    magenta: "#ff2afc"
+    cyan: "#39fff6"
+    white: "#ffffff"
+background_image:
+  path: "bg-retrowave.jpg"
+  opacity: 5

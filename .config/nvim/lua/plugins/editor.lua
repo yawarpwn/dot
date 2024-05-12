@@ -1,47 +1,38 @@
 return {
-  -- {
-  --   enabled = false,
-  --   "folke/flash.nvim",
-  --   ---@type Flash.Config
-  --   opts = {
-  --     search = {
-  --       forward = true,
-  --       multi_window = false,
-  --       wrap = false,
-  --       incremental = true,
-  --     },
-  --   },
-  -- },
-  -- {
-  --   "echasnovski/mini.surround",
-  --   opts = {
-  --     mappings = {
-  --       add = "sa", -- Add surrounding in Normal and Visual modes
-  --       delete = "sd", -- Delete surrounding
-  --       find = "sf", -- Find surrounding (to the right)
-  --       find_left = "sF", -- Find surrounding (to the left)
-  --       highlight = "sh", -- Highlight surrounding
-  --       replace = "sr", -- Replace surrounding
-  --       update_n_lines = "sn", -- Update `n_lines`
-  --     },
-  --   },
-  -- },
   {
-    "echasnovski/mini.hipatterns",
-    event = "BufReadPre",
+    "folke/flash.nvim",
+    enabled = true,
+    init = function()
+      -- vim.keymap.set("n", "x", "<cmd>lua require('flash').jump()<cr>")
+      -- vim.opt.keymap = "emoji"
+    end,
+    ---@type Flash.Config
     opts = {
-      highlighters = {
-        hsl_color = {
-          pattern = "hsl%(%d+,? %d+,? %d+%)",
-          group = function(_, match)
-            local utils = require("util.color")
-            local h, s, l = match:match("hsl%((%d+),? (%d+),? (%d+)%)")
-            h, s, l = tonumber(h), tonumber(s), tonumber(l)
-            local hex_color = utils.hslToHex(h, s, l)
-            return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
-          end,
+      -- labels = "#abcdef",
+      modes = {
+        -- char = { jump_labels = false },
+        -- treesitter = {
+        --   label = {
+        --     rainbow = { enabled = true },
+        --   },
+        -- },
+        treesitter_search = {
+          label = {
+            rainbow = { enabled = true },
+            -- format = function(opts)
+            --   local label = opts.match.label
+            --   if opts.after then
+            --     label = label .. ">"
+            --   else
+            --     label = "<" .. label
+            --   end
+            --   return { { label, opts.hl_group } }
+            -- end,
+          },
         },
       },
+      -- search = { mode = "fuzzy" },
+      -- labels = "😅😀🏇🐎🐴🐵🐒",
     },
   },
   {

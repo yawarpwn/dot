@@ -1,20 +1,10 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.formatting.prettier",
-    "lazyvim.plugins.extras.lang.json",
-    "lazyvim.plugins.extras.lang.markdown",
-    "lazyvim.plugins.extras.lang.tailwind",
-    "lazyvim.plugins.extras.lang.typescript",
-    "lazyvim.plugins.extras.lang.yaml",
-    "lazyvim.plugins.extras.linting.eslint",
-    "lazyvim.plugins.extras.ui.mini-animate",
-    "lazyvim.plugins.extras.util.dot",
-    "lazyvim.plugins.extras.util.mini-hipatterns",
-    "lazyvim.plugins.extras.vscode"
+
   ],
   "news": {
     "NEWS.md": "3314",
-    "doc/news.txt": "24277"
+    "doc/news.txt": "13995"
   },
   "version": 3
 }
