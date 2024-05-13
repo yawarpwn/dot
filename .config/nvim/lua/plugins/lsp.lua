@@ -7,14 +7,12 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "stylua",
         "selene",
-        "luacheck",
+        -- "luacheck",
         "shellcheck",
         "shfmt",
+        "markdownlint",
         "dprint",
-        "prettierd",
-        "tailwindcss-language-server",
         "astro-language-server",
-        "css-lsp",
       })
     end,
   },
@@ -36,6 +34,7 @@ return {
         -- denols = {},
         bashls = {},
         cssls = {},
+        eslint = {},
         tailwindcss = {
           root_dir = function(...)
             return require("lspconfig.util").root_pattern(".git")(...)
@@ -176,7 +175,6 @@ return {
       diagnostics = { virtual_text = { prefix = "icons" } },
     },
   },
-
   {
     "stevearc/conform.nvim",
     optional = true,

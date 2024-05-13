@@ -11,13 +11,6 @@ keymap.set("n", "<leader>l", "")
 
 keymap.set("n", "x", '"_x')
 
--- Increment/decrement
-keymap.set("n", "+", "<C-a>")
-keymap.set("n", "-", "<C-x>")
-
--- Delete a word backwards
--- keymap.set("n", "dw", 'vb"_d')
-
 -- Save with root permission (not working for now)
 --vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 

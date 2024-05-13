@@ -20,36 +20,6 @@ return {
         end,
         desc = "Find Plugin File",
       },
-      {
-        "<leader>ft",
-        function()
-          local builtin = require("telescope.builtin")
-          builtin.live_grep()
-        end,
-        desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore",
-      },
-      {
-        "<leader>fl",
-        function()
-          local files = {} ---@type table<string, string>
-          for _, plugin in pairs(require("lazy.core.config").plugins) do
-            repeat
-              if plugin._.module then
-                local info = vim.loader.find(plugin._.module)[1]
-                if info then
-                  files[info.modpath] = info.modpath
-                end
-              end
-              plugin = plugin._.super
-            until not plugin
-          end
-          require("telescope.builtin").live_grep({
-            default_text = "/",
-            search_dirs = vim.tbl_values(files),
-          })
-        end,
-        desc = "Find Lazy Plugin Spec",
-      },
     },
     opts = {
       defaults = {
