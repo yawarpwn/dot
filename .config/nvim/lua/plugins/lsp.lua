@@ -20,30 +20,32 @@ return {
   -- lsp servers
   {
     "neovim/nvim-lspconfig",
+    init = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      keys[#keys + 1] = {
+        "gd",
+        function()
+          -- DO NOT RESUSE WINDOW
+          require("telescope.builtin").lsp_definitions({ reuse_win = false })
+        end,
+        desc = "Goto Definition",
+        has = "definition",
+      }
+    end,
     opts = {
-      inlay_hints = { enabled = true },
-      capabilities = {
-        workspace = {
-          didChangeWatchedFiles = {
-            dynamicRegistration = false,
-          },
-        },
-      },
+      inlay_hints = { enabled = false },
       ---@type lspconfig.options
       servers = {
-        -- denols = {},
-        bashls = {},
         cssls = {},
-        eslint = {},
         tailwindcss = {
           root_dir = function(...)
             return require("lspconfig.util").root_pattern(".git")(...)
           end,
         },
         tsserver = {
-          -- root_dir = function(...)
-          --   return require("lspconfig.util").root_pattern(".git")(...)
-          -- end,
+          root_dir = function(...)
+            return require("lspconfig.util").root_pattern(".git")(...)
+          end,
           single_file_support = false,
           settings = {
             typescript = {
@@ -70,25 +72,7 @@ return {
             },
           },
         },
-        -- svelte = {},
         html = {},
-        -- gopls = {},
-        marksman = {},
-        -- pyright = {
-        --   enabled = false,
-        -- },
-        settings = {
-          rust_analyzer = {
-            ["rust-analyzer"] = {
-              procMacro = { enable = true },
-              cargo = { allFeatures = true },
-              checkOnSave = {
-                command = "clippy",
-                extraArgs = { "--no-deps" },
-              },
-            },
-          },
-        },
         yamlls = {
           settings = {
             yaml = {
@@ -98,7 +82,6 @@ return {
         },
         lua_ls = {
           -- enabled = false,
-          -- cmd = { "/home/folke/projects/lua-language-server/bin/lua-language-server" },
           single_file_support = true,
           settings = {
             Lua = {
@@ -114,7 +97,6 @@ return {
                   -- "--log-level=trace",
                 },
               },
-              hover = { expandAlias = false },
               hint = {
                 enable = true,
                 setType = false,
@@ -153,7 +135,7 @@ return {
                 unusedLocalExclude = { "_*" },
               },
               format = {
-                enable = true,
+                enable = false,
                 defaultConfig = {
                   indent_style = "space",
                   indent_size = "2",
@@ -163,7 +145,6 @@ return {
             },
           },
         },
-        vimls = {},
       },
       setup = {},
     },
@@ -207,11 +188,20 @@ return {
       linters_by_ft = {
         lua = { "selene", "luacheck" },
         markdown = { "markdownlint" },
+        javascript = { "eslint" },
       },
       linters = {
         selene = {
           condition = function(ctx)
             return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
+          end,
+        },
+        eslint = {
+          condition = function(ctx)
+            return vim.fs.find(
+              { "eslint.config.mjs", "eslint.config.js", "eslint.config.cjs" },
+              { path = ctx.filename, upward = true }
+            )[1]
           end,
         },
         luacheck = {
