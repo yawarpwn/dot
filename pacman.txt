@@ -16,3 +16,4 @@ exa
 xsel
 ripgrep
 fish
+fzf
