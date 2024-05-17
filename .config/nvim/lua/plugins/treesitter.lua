@@ -1,22 +1,11 @@
 return {
-  -- { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
-
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "lua",
-        "typescript",
-        "javascript",
-        "tsx",
-        "html",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
         "astro",
-        "css",
         "gitignore",
-        "graphql",
-        "http",
-        "sql",
-      },
-    },
+      })
+    end,
   },
 }

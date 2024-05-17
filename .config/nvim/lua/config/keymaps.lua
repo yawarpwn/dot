@@ -1,18 +1,14 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
 local Util = require("lazyvim.util")
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 -- Disabled keymaps
 keymap.set("n", "<leader>l", "")
+keymap.set("n", "<leader>-", "")
+keymap.set("n", "<leader>|", "")
+keymap.set("n", "<leader>`", "")
 
 keymap.set("n", "x", '"_x')
-
--- Save with root permission (not working for now)
---vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
 -- Disable continuations
 keymap.set("n", "<Leader>o", "o<Esc>^Da", opts)
@@ -30,18 +26,6 @@ keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 keymap.set("n", "ss", ":split<Return>", opts)
 keymap.set("n", "sv", ":vsplit<Return>", opts)
 
--- Move window
-keymap.set("n", "sh", "<C-w>h")
-keymap.set("n", "sk", "<C-w>k")
-keymap.set("n", "sj", "<C-w>j")
-keymap.set("n", "sl", "<C-w>l")
-
--- Resize window
-keymap.set("n", "<C-w><left>", "<C-w><")
-keymap.set("n", "<C-w><right>", "<C-w>>")
-keymap.set("n", "<C-w><up>", "<C-w>+")
-keymap.set("n", "<C-w><down>", "<C-w>-")
-
 local lazyterm = function()
   Util.terminal(nil, { cwd = Util.root() })
 end
@@ -56,17 +40,4 @@ end, { desc = "Terminal (cwd)" })
 keymap.set("t", "<m-3>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap.set("t", "<m-1>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
-keymap.set("n", "<m-r>", "<cmd>RustRun<cr>", { desc = "Rust run" })
-
--- Diagnostics
-keymap.set("n", "<C-j>", function()
-  vim.diagnostic.goto_next()
-end, opts)
-
 keymap.set("n", "<c-w>", ":bd<cr>")
-
--- Move to window using the <ctrl> hjkl keys
-keymap.set("n", "<leader>h", "<C-w>h", opts)
-keymap.set("n", "<leader>j", "<C-w>j", opts)
-keymap.set("n", "<leader>k", "<C-w>k", opts)
-keymap.set("n", "<leader>l", "<C-w>l", opts)
