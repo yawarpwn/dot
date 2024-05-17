@@ -1,7 +1,6 @@
 return {
   {
     "tokyonight.nvim",
-    priority = 1000,
     opts = function()
       local bg = "#011628"
       local bg_dark = "#011423"

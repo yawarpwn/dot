@@ -1,6 +1,4 @@
 return {
-  -- neodev
-  -- tools
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
@@ -12,12 +10,23 @@ return {
       })
     end,
   },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    opts = {
+      ensure_installed = {
+        "eslint",
+        "prettier",
+        "dprint",
+      },
+    },
+  },
 
   -- lsp servers
   {
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
+      -- { "antosha417/nvim-lsp-file-operations", config = true },
       init = function()
         require("lazyvim.util").lsp.on_attach(function(_, buffer)
           -- stylua: ignore
