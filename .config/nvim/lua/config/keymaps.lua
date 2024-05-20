@@ -36,3 +36,6 @@ keymap.set("t", "<m-3>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap.set("t", "<m-1>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 keymap.set("n", "<c-w>", ":bd<cr>")
+
+--Lsp
+keymap.set("n", "<leader>lr", "<cmd>:LspRestart<cr>", { desc = "Restart LSP" })

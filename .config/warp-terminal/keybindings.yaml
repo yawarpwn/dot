@@ -1,4 +1,7 @@
 ---
-"editor_view:select_all": ctrl-shift-A
+"pane_group:navigate_prev": ctrl-shift-H
 "editor_view:move_to_line_end": ctrl-e
+"workspace:toggle_ai_assistant": ctrl-meta-space
+"editor_view:select_all": ctrl-shift-A
 "editor_view:move_to_line_start": ctrl-a
+"pane_group:navigate_next": ctrl-shift-L
