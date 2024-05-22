@@ -1,6 +1,8 @@
 scripts
 nvim-bak/
 .git
+.gitignore
+.gitconfig
 README.md
 pacman.txt
 
