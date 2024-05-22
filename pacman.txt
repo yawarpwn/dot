@@ -7,11 +7,8 @@ unzip
 unrar
 neovim
 wget
-neofetch
+fastfetch
 base-devel
-rust-analyzer
-rustup
-brave-browser-beta
 exa
 xsel
 ripgrep
