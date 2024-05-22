@@ -63,14 +63,6 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-  xterm* | rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-  *) ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -111,10 +103,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-. "$HOME/.cargo/env"
-
-export DPRINT_INSTALL="/home/johneyder/.dprint"
+#dprint
+export DPRINT_INSTALL="$HOME/.dprint"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
+
+#zoxide
+eval "$(zoxide init bash)"
+
+# fnm
+export PATH="$HOME/.local/share/fnm:$PATH"
+eval "$(fnm env)"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
