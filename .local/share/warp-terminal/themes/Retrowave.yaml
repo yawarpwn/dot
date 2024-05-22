@@ -25,4 +25,4 @@ terminal_colors:
     white: "#ffffff"
 background_image:
   path: "bg-retrowave.jpg"
-  opacity: 5
+  opacity: 2

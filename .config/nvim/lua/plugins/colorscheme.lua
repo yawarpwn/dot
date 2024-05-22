@@ -13,7 +13,7 @@ return {
       local border = "#547998"
 
       return {
-        style = "night",
+        style = "moon",
         transparent = true,
         styles = {
           sidebars = "transparent",
