@@ -1,2 +1,1 @@
-import { pick } from './server'
-
+import { pick } from "./server";

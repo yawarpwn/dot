@@ -19,7 +19,7 @@
     "OverrideOpacity": "100",
     "WorkflowsBoxOpen": "true",
     "SystemTheme": "true",
-    "SelectedSystemThemes": "{\"light\":\"Light\",\"dark\":{\"Custom\":{\"name\":\"Retrowave\",\"path\":\"/home/johneyder/.local/share/warp-terminal/themes/Retrowave.yaml\"}}}",
+    "SelectedSystemThemes": "{\"light\":\"Light\",\"dark\":\"CyberWave\"}",
     "EnforceMinimumContrast": "\"Always\"",
     "VimModeEnabled": "false",
     "ShouldDimInactivePanes": "false",
