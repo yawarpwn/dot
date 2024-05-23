@@ -1,3 +1,9 @@
-alias ll='ls -l'
+alias ls='exa'
+alias ll='ls -lah'
 alias la='ls -A'
 alias l='ls -CF'
+alias tree="exa --tree"
+
+#Git
+alias gg="lazygit"
+alias gcam="git commit --all -message"

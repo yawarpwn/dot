@@ -19,3 +19,9 @@ Install cargo
 ```shell
 curl https://sh.rustup.rs -sSf | sh
 ```
+
+Install font
+
+```shell
+sudo pacman -S ttf-jetbrains-mono-nerd
+```
