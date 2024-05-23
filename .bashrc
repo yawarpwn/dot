@@ -39,12 +39,6 @@ fi
 export DPRINT_INSTALL="$HOME/.dprint"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
 
-# zoxide
-eval "$(zoxide init bash)"
-
-# starship
-eval "$(starship init bash)"
-
 # fnm
 export PATH="$HOME/.local/share/fnm:$PATH"
 eval "$(fnm env)"
@@ -52,3 +46,9 @@ eval "$(fnm env)"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
+
+# zoxide
+eval "$(zoxide init bash)"
+
+# starship
+eval "$(starship init bash)"
