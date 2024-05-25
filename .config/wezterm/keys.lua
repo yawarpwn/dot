@@ -22,7 +22,7 @@ function M.setup(config)
 		{ mods = M.mod, key = "k", action = act.ScrollByPage(-0.5) },
 		{ mods = M.mod, key = "j", action = act.ScrollByPage(0.5) },
 		-- New Tab
-		{ mods = M.mod, key = "t", action = act.SpawnTab("CurrentPaneDomain") },
+		{ mods = "CTRL|SHIFT", key = "t", action = act.SpawnTab("CurrentPaneDomain") },
 		-- Splits
 		{ mods = M.mod, key = "Enter", action = M.smart_split },
 		{ mods = M.mod, key = "|", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
@@ -41,7 +41,7 @@ function M.setup(config)
 		{ mods = M.mod, key = "Space", action = act.QuickSelect },
 		{ mods = M.mod, key = "X", action = act.ActivateCopyMode },
 		{ mods = M.mod, key = "f", action = act.Search("CurrentSelectionOrEmptyString") },
-		{ mods = M.mod, key = "V", action = act.PasteFrom("Clipboard") },
+		{ mods = "CTRL|SHIFT", key = "V", action = act.PasteFrom("Clipboard") },
 		{ mods = M.mod, key = "M", action = act.TogglePaneZoomState },
 		{ mods = M.mod, key = "p", action = act.ActivateCommandPalette },
 		{ mods = M.mod, key = "d", action = act.ShowDebugOverlay },
