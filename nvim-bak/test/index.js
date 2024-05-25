@@ -7,3 +7,7 @@ const fn = () => {
 const getRandomNumber = () => {
   const logo = "muevela";
 };
+
+const $ = (el) => {
+  console.log(el);
+};
