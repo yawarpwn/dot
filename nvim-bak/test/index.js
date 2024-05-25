@@ -4,7 +4,6 @@ console.log(pre);
 const fn = () => {
   console.log();
 };
-
 const getRandomNumber = () => {
   const logo = "muevela";
 };
