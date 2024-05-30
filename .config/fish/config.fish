@@ -31,3 +31,7 @@ abbr gm "git branch -l main | rg main > /dev/null 2>&1 && hub checkout main || h
 abbr gcp "git commit -p"
 abbr gpp "git push"
 abbr gp "git pull"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

@@ -52,3 +52,10 @@ eval "$(zoxide init bash)"
 
 # starship
 eval "$(starship init bash)"
+
+# fnm
+FNM_PATH="/home/johneyder/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "$(fnm env)"
+fi
