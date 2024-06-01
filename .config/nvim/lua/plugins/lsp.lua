@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   {
     "williamboman/mason.nvim",
@@ -7,28 +8,11 @@ return {
         "css-lsp",
         "astro-language-server",
         "html-lsp",
-      })
-    end,
-  },
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    opts = {
-      ensure_installed = {
-        "eslint",
+        "eslint-lsp",
         "prettier",
         "dprint",
-      },
-    },
-  },
-  ---@diagnostic disable: missing-fields
-  -- neodev
-  {
-    "folke/neodev.nvim",
-    -- opts = {
-    --   library = {
-    --     runtime = "~/projects/neovim/runtime/",
-    --   },
-    -- },
+      })
+    end,
   },
 
   -- lsp servers
@@ -45,19 +29,6 @@ return {
       },
       ---@type lspconfig.options
       servers = {
-        -- ansiblels = {},
-        bashls = {},
-        -- clangd = {},
-        -- denols = {},
-        cssls = {},
-        -- dockerls = {},
-        -- ruff_lsp = {},
-        tailwindcss = {
-          root_dir = function(...)
-            return require("lspconfig.util").root_pattern(".git")(...)
-          end,
-        },
-        html = {},
         lua_ls = {
           single_file_support = true,
           settings = {
