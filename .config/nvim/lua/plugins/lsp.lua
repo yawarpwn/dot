@@ -6,7 +6,6 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "dprint",
         "css-lsp",
-        "astro-language-server",
         "html-lsp",
         "eslint-lsp",
         "prettier",
