@@ -9,7 +9,6 @@ return {
         "html-lsp",
         "eslint-lsp",
         "prettier",
-        "dprint",
       })
     end,
   },

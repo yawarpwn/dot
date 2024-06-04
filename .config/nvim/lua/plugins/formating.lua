@@ -5,11 +5,11 @@ return {
     formatters_by_ft = {
       ["markdown"] = { { "prettierd", "prettier" } },
       ["markdown.mdx"] = { { "prettierd", "prettier" } },
-      ["css"] = { "prettierd" },
+      ["css"] = { "prettierd", "prettier" },
       ["javascript"] = { "dprint", "prettierd", "prettier" },
-      ["javascriptreact"] = { "dprint" },
+      ["javascriptreact"] = { "dprint", "prettier" },
       ["typescript"] = { "dprint", "prettierd", "prettier" },
-      ["typescriptreact"] = { "dprint" },
+      ["typescriptreact"] = { "dprint", "prettier" },
       ["astro"] = { "prettierd", "prettier" },
     },
     formatters = {

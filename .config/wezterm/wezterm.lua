@@ -41,7 +41,7 @@ if wezterm.target_triple:find("windows") then
 	end)
 else
 	config.term = "wezterm"
-	config.window_decorations = "RESIZE"
+	-- config.window_decorations = "RESIZE"
 end
 -- Fonts
 config.font_size = 11
