@@ -7,8 +7,6 @@ return {
         "dprint",
         "css-lsp",
         "html-lsp",
-        "eslint-lsp",
-        "prettier",
       })
     end,
   },
