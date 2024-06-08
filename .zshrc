@@ -59,3 +59,10 @@ eval "$(starship init zsh)"
 # fnm
 export PATH="/home/johneyder/.local/share/fnm:$PATH"
 eval "`fnm env`"
+
+# fnm
+FNM_PATH="/home/johneyder/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/johneyder/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
