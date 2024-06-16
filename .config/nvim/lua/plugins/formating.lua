@@ -10,7 +10,6 @@ return {
       ["javascriptreact"] = { "dprint", "prettier" },
       ["typescript"] = { "dprint", "prettierd", "prettier" },
       ["typescriptreact"] = { "dprint", "prettier" },
-      ["astro"] = { "prettierd", "prettier" },
     },
     formatters = {
       shfmt = {
