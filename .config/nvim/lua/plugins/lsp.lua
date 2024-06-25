@@ -26,10 +26,14 @@ return {
       ---@type lspconfig.options
       servers = {
         lua_ls = {
-          single_file_support = true,
+          -- cmd = { "/home/folke/projects/lua-language-server/bin/lua-language-server" },
+          -- single_file_support = true,
           settings = {
             Lua = {
-              hover = { expandAlias = false },
+              misc = {
+                -- parameters = { "--loglevel=trace" },
+              },
+              -- hover = { expandAlias = false },
               type = {
                 castNumberToInteger = true,
               },

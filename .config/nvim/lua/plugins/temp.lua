@@ -7,7 +7,7 @@ return {
       },
     },
   },
-  { "justinsgithub/wezterm-types" },
+  { "justinsgithub/wezterm-types", lazy = true },
   -- {
   --   "folke/flash.nvim",
   --   enabled = true,

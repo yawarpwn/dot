@@ -1,13 +1,12 @@
----@type Wezterm
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") --[[@as Wezterm]]
 local config = wezterm.config_builder()
 
 require("keys").setup(config)
 require("links").setup(config)
 require("tabs").setup(config)
 
-config.front_end = "WebGpu"
-config.front_end = "OpenGL" -- current work-around for https://github.com/wez/wezterm/issues/4825
+--config.front_end = "WebGpu"
+--config.front_end = "OpenGL" -- current work-around for https://github.com/wez/wezterm/issues/4825
 config.enable_wayland = true
 config.webgpu_power_preference = "HighPerformance"
 -- config.animation_fps = 1
@@ -41,11 +40,12 @@ if wezterm.target_triple:find("windows") then
 	end)
 else
 	config.term = "wezterm"
-	-- config.window_decorations = "RESIZE"
+	-- config.window_decorations = "NONE"
 end
 -- Fonts
 config.font_size = 11
-config.font = wezterm.font({ family = "Fira Code Nerd Font" })
+-- config.font = wezterm.font({ family = "Fira Code Nerd Font" })
+config.font = wezterm.font({ family = "JetBrains Mono" })
 config.bold_brightens_ansi_colors = true
 
 -- Cursor
@@ -56,5 +56,10 @@ config.window_background_opacity = 0.98
 -- cell_width = 0.9,
 config.scrollback_lines = 10000
 
+-- Command Palette
+config.command_palette_font_size = 13
+config.command_palette_bg_color = "#394b70"
+config.command_palette_fg_color = "#828bb8"
+
 -- and finally, return the configuration to wezterm
-return config --[[@as Wezterm]]
+return config
