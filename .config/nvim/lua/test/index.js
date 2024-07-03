@@ -3,6 +3,8 @@ const variableNousado = "";
 function createFn() {
   console.log("function created");
 
+  const print = () => "hllll";
+
   const logo = () => {
     console.log(window);
   };
