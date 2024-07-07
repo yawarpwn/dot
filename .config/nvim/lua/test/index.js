@@ -21,3 +21,5 @@ const $ = (element) => document.querySelector(element);
 const $main = $("#main");
 
 const txt = "ney txt";
+
+const getText = () => txt;
