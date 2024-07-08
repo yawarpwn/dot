@@ -11,8 +11,6 @@ keymap.set("n", "<leader>-", "")
 keymap.set("n", "<leader>|", "")
 keymap.set("n", "<leader>`", "")
 
--- keymap.set("n", "x", '"_x')
-
 -- Disable continuations
 keymap.set("n", "<Leader>o", "o<Esc>^Da", opts)
 keymap.set("n", "<Leader>O", "O<Esc>^Da", opts)
