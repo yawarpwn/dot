@@ -17,9 +17,7 @@ const obj = {
   },
 };
 
-const $ = (element) => document.querySelector(element);
-const $main = $("#main");
-
-const txt = "ney txt";
+const $ = (element) => document.queryselector(element);
+const txt = "txt";
 
 const getText = () => txt;
