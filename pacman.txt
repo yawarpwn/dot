@@ -15,3 +15,4 @@ xsel
 ripgrep
 fish
 fzf
+fd

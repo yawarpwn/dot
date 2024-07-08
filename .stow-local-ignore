@@ -1,5 +1,5 @@
 scripts
-nvim-bak
+.config/nvim_bak
 .git
 .gitignore
 .gitconfig
