@@ -1,4 +1,4 @@
-const variableNousado = "";
+const variableNousado = "name";
 
 function createFn() {
   console.log("function created");
