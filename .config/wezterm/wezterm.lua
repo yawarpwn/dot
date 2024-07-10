@@ -44,8 +44,8 @@ else
 end
 -- Fonts
 config.font_size = 11
--- config.font = wezterm.font({ family = "Fira Code Nerd Font" })
-config.font = wezterm.font({ family = "JetBrains Mono" })
+config.font = wezterm.font({ family = "Fira Code Nerd Font" })
+-- config.font = wezterm.font({ family = "JetBrains Mono" })
 config.bold_brightens_ansi_colors = true
 
 -- Cursor

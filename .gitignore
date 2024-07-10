@@ -1,2 +1,3 @@
 .config/nvim/lazy-lock.json
-/nvim-bak
+/.config/nvim-bak
+/.config/nvim/test
