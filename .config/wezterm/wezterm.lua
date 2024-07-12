@@ -4,6 +4,7 @@ local config = wezterm.config_builder()
 require("keys").setup(config)
 require("links").setup(config)
 require("tabs").setup(config)
+require("mouse").setup(config)
 
 --config.front_end = "WebGpu"
 --config.front_end = "OpenGL" -- current work-around for https://github.com/wez/wezterm/issues/4825
@@ -45,8 +46,25 @@ end
 -- Fonts
 config.font_size = 11
 -- config.font = wezterm.font({ family = "Fira Code Nerd Font" })
-config.font = wezterm.font({ family = "JetBrains Mono" })
+config.font = wezterm.font({ family = "JetBrains Mono NL" })
 config.bold_brightens_ansi_colors = true
+config.font_rules = {
+	{
+		intensity = "Bold",
+		italic = true,
+		font = wezterm.font({ family = "Maple Mono", weight = "Bold", style = "Italic" }),
+	},
+	{
+		italic = true,
+		intensity = "Half",
+		font = wezterm.font({ family = "Maple Mono", weight = "DemiBold", style = "Italic" }),
+	},
+	{
+		italic = true,
+		intensity = "Normal",
+		font = wezterm.font({ family = "Maple Mono", style = "Italic" }),
+	},
+}
 
 -- Cursor
 config.default_cursor_style = "BlinkingBar"
