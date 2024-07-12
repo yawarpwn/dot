@@ -10,7 +10,7 @@ wget
 fastfetch
 base-devel
 stow
-exa
+eza
 xsel
 ripgrep
 fish

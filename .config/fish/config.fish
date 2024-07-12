@@ -3,7 +3,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-#path
+# Path
 set -x fish_user_paths
 fish_add_path ~/.bun/bin
 fish_add_path ~/.cargo/bin
@@ -16,12 +16,6 @@ starship init fish | source
 zoxide init fish | source
 # export (cat env_file.txt |xargs -L 1)
 
-#exa
-abbr ls exa
-abbr ll "exa -lah"
-abbr tree "exa --tree"
-
-
 abbr gg lazygit
 abbr gl 'git l --color | devmoji --log --color | less -rXF'
 abbr gs "git st"
@@ -32,6 +26,15 @@ abbr gm "git branch -l main | rg main > /dev/null 2>&1 && hub checkout main || h
 abbr gcp "git commit -p"
 abbr gpp "git push"
 abbr gp "git pull"
+
+# Files & Directories
+abbr mv "mv -iv"
+abbr cp "cp -riv"
+abbr mkdir "mkdir -vp"
+alias ls="eza --color=always --icons --group-directories-first"
+alias la 'eza --color=always --icons --group-directories-first --all'
+alias ll 'eza --color=always --icons --group-directories-first --all --long'
+abbr l ll
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
