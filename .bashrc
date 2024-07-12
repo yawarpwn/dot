@@ -1,7 +1,7 @@
 # Si no se está ejecutando de forma interactiva, no hacer nada
 case $- in
-  *i*) ;;
-  *) return ;; # Salir si no es interactivo
+*i*) ;;
+*) return ;; # Salir si no es interactivo
 esac
 
 # Agregar al archivo de historial, no sobrescribirlo
@@ -38,6 +38,9 @@ fi
 # dprint
 export DPRINT_INSTALL="$HOME/.dprint"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
+
+##nvim
+export PATH="$PATH:/opt/nvim-linux64/bin"
 
 # fnm
 export PATH="$HOME/.local/share/fnm:$PATH"
