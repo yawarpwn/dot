@@ -10,12 +10,16 @@ fish_add_path ~/.cargo/bin
 fish_add_path ~/.local/bin
 fish_add_path /opt/nvim-linux64/bin
 fish_add_path /bin
+fish_add_path /.local/bin/pnpm
+
+set -gx DENO_INSTALL '~/.deno'
+fish_add_path ~/.deno/bin
 
 
 starship init fish | source
 zoxide init fish | source
-# export (cat env_file.txt |xargs -L 1)
 
+# Dev
 abbr gg lazygit
 abbr gl 'git l --color | devmoji --log --color | less -rXF'
 abbr gs "git st"
