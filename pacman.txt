@@ -16,3 +16,5 @@ ripgrep
 fish
 fzf
 fd
+python-pip
+python-pynvim
