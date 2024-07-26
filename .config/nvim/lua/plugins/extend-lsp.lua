@@ -27,7 +27,7 @@ return {
               parameterNames = { enabled = "literals" },
               parameterTypes = { enabled = false },
               propertyDeclarationTypes = { enabled = false },
-              variableTypes = { enabled = true },
+              variableTypes = { enabled = false },
             },
           },
         },
