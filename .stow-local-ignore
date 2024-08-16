@@ -1,5 +1,6 @@
 scripts
 .config/nvim_bak
+autohotkey.ahk
 .git
 .gitignore
 .gitconfig
