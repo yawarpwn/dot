@@ -1,5 +1,6 @@
 local wezterm = require("wezterm") --[[@as Wezterm]]
 local config = wezterm.config_builder()
+wezterm.log_info("...reloading")
 
 require("keys").setup(config)
 require("links").setup(config)
@@ -28,7 +29,7 @@ config.cursor_thickness = 4
 config.underline_position = -6
 
 if wezterm.target_triple:find("windows") then
-	config.default_domain = { "WSL:Arch" }
+	config.default_domain = "WSL:Arch"
 	config.window_decorations = "RESIZE|TITLE"
 	wezterm.on("gui-startup", function(cmd)
 		local screen = wezterm.gui.screens().active
@@ -46,7 +47,7 @@ end
 -- Fonts
 config.font_size = 11
 config.font = wezterm.font({ family = "Fira Code" })
--- config.font = wezterm.font({ family = "JetBrains Mono NL" })
+-- config.font = wezterm.font({ family = "JetBrains Mono" })
 config.bold_brightens_ansi_colors = true
 config.font_rules = {
 	{

@@ -22,6 +22,8 @@ local direction_keys = {
 	l = "Right",
 }
 
+---@param resize_or_move "resize" | "move"
+---@param key "h" | "j" | "k" | "l" | "Left" | "Down" | "Up" | "Right"
 M.split_nav = function(resize_or_move, key)
 	return {
 		key = key,
