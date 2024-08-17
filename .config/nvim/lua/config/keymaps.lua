@@ -1,7 +1,7 @@
 local util = require("util")
 
 util.cowboy()
-util.wezterm()
+-- util.wezterm()
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }

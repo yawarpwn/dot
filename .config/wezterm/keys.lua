@@ -3,6 +3,46 @@ local wezterm = require("wezterm") --[[@as Wezterm]]
 local act = wezterm.action
 local M = {}
 
+M.is_vim = function(pane)
+	local process_info = pane:get_foreground_process_info()
+	local process_name = process_info and process_info.name
+
+	return process_name == "nvim" or process_name == "vim"
+end
+
+local direction_keys = {
+	Left = "h",
+	Down = "j",
+	Up = "k",
+	Right = "l",
+	-- reverse lookup
+	h = "Left",
+	j = "Down",
+	k = "Up",
+	l = "Right",
+}
+
+M.split_nav = function(resize_or_move, key)
+	return {
+		key = key,
+		mods = resize_or_move == "resize" and "META" or "CTRL",
+		action = wezterm.action_callback(function(win, pane)
+			if M.is_vim(pane) then
+				-- pass the keys through to vim/nvim
+				win:perform_action({
+					SendKey = { key = key, mods = resize_or_move == "resize" and "META" or "CTRL" },
+				}, pane)
+			else
+				if resize_or_move == "resize" then
+					win:perform_action({ AdjustPaneSize = { direction_keys[key], 3 } }, pane)
+				else
+					win:perform_action({ ActivatePaneDirection = direction_keys[key] }, pane)
+				end
+			end
+		end),
+	}
+end
+
 M.mod = wezterm.target_triple:find("windows") and "SHIFT|CTRL" or "SHIFT|SUPER"
 -- M.mod = "SHIFT|SUPER"
 M.smart_split = wezterm.action_callback(function(window, pane)
@@ -53,57 +93,12 @@ function M.setup(config)
 		{ mods = M.mod, key = "m", action = act.TogglePaneZoomState },
 		{ mods = M.mod, key = "p", action = act.ActivateCommandPalette },
 		{ mods = M.mod, key = "d", action = act.ShowDebugOverlay },
-		M.split_nav("resize", "CTRL", "LeftArrow", "Right"),
-		M.split_nav("resize", "CTRL", "RightArrow", "Left"),
-		M.split_nav("resize", "CTRL", "UpArrow", "Up"),
-		M.split_nav("resize", "CTRL", "DownArrow", "Down"),
-		M.split_nav("move", "CTRL", "h", "Left"),
-		M.split_nav("move", "CTRL", "j", "Down"),
-		M.split_nav("move", "CTRL", "k", "Up"),
-		M.split_nav("move", "CTRL", "l", "Right"),
+		M.split_nav("move", "h"),
+		M.split_nav("move", "j"),
+		M.split_nav("move", "k"),
+		M.split_nav("move", "l"),
+		-- resize panes
 	}
-end
-
----@param resize_or_move "resize" | "move"
----@param mods string
----@param key string
----@param dir "Right" | "Left" | "Up" | "Down"
-function M.split_nav(resize_or_move, mods, key, dir)
-	local event = "SplitNav_" .. resize_or_move .. "_" .. dir
-	wezterm.on(event, function(win, pane)
-		if M.is_nvim(pane) then
-			-- pass the keys through to vim/nvim
-			win:perform_action({ SendKey = { key = key, mods = mods } }, pane)
-		else
-			if resize_or_move == "resize" then
-				win:perform_action({ AdjustPaneSize = { dir, 3 } }, pane)
-			else
-				local panes = pane:tab():panes_with_info()
-				local is_zoomed = false
-				for _, p in ipairs(panes) do
-					if p.is_zoomed then
-						is_zoomed = true
-					end
-				end
-				wezterm.log_info("is_zoomed: " .. tostring(is_zoomed))
-				if is_zoomed then
-					dir = dir == "Up" or dir == "Right" and "Next" or "Prev"
-					wezterm.log_info("dir: " .. dir)
-				end
-				win:perform_action({ ActivatePaneDirection = dir }, pane)
-				win:perform_action({ SetPaneZoomState = is_zoomed }, pane)
-			end
-		end
-	end)
-	return {
-		key = key,
-		mods = mods,
-		action = wezterm.action.EmitEvent(event),
-	}
-end
-
-function M.is_nvim(pane)
-	return pane:get_user_vars().IS_NVIM == "true" or pane:get_foreground_process_name():find("n?vim")
 end
 
 return M
