@@ -20,3 +20,15 @@ fd
 python-pip
 python-pynvim
 xdg-utils
+openssl
+gcc
+make
+python
+python-pipx
+curl
+wget
+gparted
+bat
+tar
+gzip
+xz
