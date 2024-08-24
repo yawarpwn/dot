@@ -27,7 +27,7 @@ local direction_keys = {
 M.split_nav = function(resize_or_move, key)
 	return {
 		key = key,
-		mods = resize_or_move == "resize" and "META" or "SHIFT|CTRL",
+		mods = resize_or_move == "resize" and "META" or "CTRL",
 		action = wezterm.action_callback(function(win, pane)
 			if M.is_vim(pane) then
 				-- pass the keys through to vim/nvim
