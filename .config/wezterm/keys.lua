@@ -3,6 +3,38 @@ local wezterm = require("wezterm") --[[@as Wezterm]]
 local act = wezterm.action
 local M = {}
 
+local function isViProcess(pane)
+	-- get_foreground_process_name On Linux, macOS and Windows,
+	-- the process can be queried to determine this path. Other operating systems
+	-- (notably, FreeBSD and other unix systems) are not currently supported
+	return pane:get_foreground_process_name():find("n?vim") ~= nil or pane:get_title():find("n?vim") ~= nil
+end
+
+local function conditionalActivatePane(window, pane, pane_direction, vim_direction)
+	if isViProcess(pane) then
+		window:perform_action(
+			-- This should match the keybinds you set in Neovim.
+			act.SendKey({ key = vim_direction, mods = "ALT" }),
+			pane
+		)
+	else
+		window:perform_action(act.ActivatePaneDirection(pane_direction), pane)
+	end
+end
+
+wezterm.on("ActivatePaneDirection-right", function(window, pane)
+	conditionalActivatePane(window, pane, "Right", "l")
+end)
+wezterm.on("ActivatePaneDirection-left", function(window, pane)
+	conditionalActivatePane(window, pane, "Left", "h")
+end)
+wezterm.on("ActivatePaneDirection-up", function(window, pane)
+	conditionalActivatePane(window, pane, "Up", "k")
+end)
+wezterm.on("ActivatePaneDirection-down", function(window, pane)
+	conditionalActivatePane(window, pane, "Down", "j")
+end)
+
 M.is_vim = function(pane)
 	local process_info = pane:get_foreground_process_info()
 	local process_name = process_info and process_info.name
@@ -95,11 +127,15 @@ function M.setup(config)
 		{ mods = M.mod, key = "m", action = act.TogglePaneZoomState },
 		{ mods = M.mod, key = "p", action = act.ActivateCommandPalette },
 		{ mods = M.mod, key = "d", action = act.ShowDebugOverlay },
-		M.split_nav("move", "h"),
-		M.split_nav("move", "j"),
-		M.split_nav("move", "k"),
-		M.split_nav("move", "l"),
+		-- M.split_nav("move", "h"),
+		-- M.split_nav("move", "j"),
+		-- M.split_nav("move", "k"),
+		-- M.split_nav("move", "l"),
 		-- resize panes
+		{ key = "h", mods = "ALT", action = act.EmitEvent("ActivatePaneDirection-left") },
+		{ key = "j", mods = "ALT", action = act.EmitEvent("ActivatePaneDirection-down") },
+		{ key = "k", mods = "ALT", action = act.EmitEvent("ActivatePaneDirection-up") },
+		{ key = "l", mods = "ALT", action = act.EmitEvent("ActivatePaneDirection-right") },
 	}
 end
 

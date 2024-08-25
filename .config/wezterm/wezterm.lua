@@ -29,7 +29,7 @@ config.cursor_thickness = 4
 config.underline_position = -6
 
 if wezterm.target_triple:find("windows") then
-	config.default_domain = "WSL:Arch"
+	config.default_domain = "WSL:Debian"
 	config.window_decorations = "RESIZE|TITLE"
 	wezterm.on("gui-startup", function(cmd)
 		local screen = wezterm.gui.screens().active
