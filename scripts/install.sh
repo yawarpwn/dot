@@ -16,7 +16,7 @@ if [[ -t 1 ]]; then
   Bold_White='\033[1m'
 fi
 
-# Funcion para mostrar mensajes
+# Funciones para mostrar mensajes
 error() {
   echo -e "${Red}error${Color_Off}: ${*}" >&2
 }
@@ -30,7 +30,7 @@ success() {
 }
 
 # Funcion para verificar si un comando existe
-commmand_exists() {
+command_exists() {
   command -v "${1}" >/dev/null 2>&1
 }
 
@@ -38,7 +38,7 @@ install() {
   local name=$1
   local install_cmd=$2
 
-  if commmand_exists "${name}"; then
+  if command_exists "${name}"; then
     success "${name} is already installed"
     return 0
   else
@@ -57,7 +57,7 @@ install() {
 install "starship" "curl -sS https://starship.rs/install.sh | sh" || true
 
 # Intentar instalar bun
-install "bun" "curl -fsSL https://bun.sh/install | sh" || true
+install "bun" "curl -fsSL https://bun.sh/install | bash" || true
 
 # Intentar instalar fnm
 install "fnm" "curl -fsSL https://fnm.vercel.app/install | sh" || true
@@ -65,4 +65,15 @@ install "fnm" "curl -fsSL https://fnm.vercel.app/install | sh" || true
 # Intentar instalar cargo
 install "cargo" "curl https://sh.rustup.rs -sSf | sh" || true
 
+#Install nodejs
+if command_exists "fnm"; then
+  info "installing Node.js LTS version"
+  if fnm install --lts; then
+    success "Node.js LTS version installed successfully"
+  else
+    error "Error installing Node.js LTS version"
+  fi
+else
+  error "fnm is not installed. Skipping Node.js LTS installation"
+fi
 info "instalations finished"

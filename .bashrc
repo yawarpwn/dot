@@ -1,3 +1,7 @@
+if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} && ${SHLVL} == 1 ]]; then
+  shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=''
+  exec fish $LOGIN_OPTION
+fi
 # Si no se está ejecutando de forma interactiva, no hacer nada
 case $- in
 *i*) ;;
@@ -68,5 +72,5 @@ fi
 FNM_PATH="/home/neyda/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
+  eval "$(fnm env)"
 fi
