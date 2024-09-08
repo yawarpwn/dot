@@ -1,3 +1,9 @@
+xorg-server
+papirus-icon-theme
+xorg-xinit
+pulseaudio
+picom
+xf86-input-synaptics
 less
 starship
 grep
