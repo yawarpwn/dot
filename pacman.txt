@@ -52,3 +52,4 @@ yt-dlp
 rofi
 github-cli
 yt-dlp
+openssh
