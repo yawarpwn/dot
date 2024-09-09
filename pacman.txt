@@ -57,3 +57,11 @@ yt-dlp
 openssh
 thunar
 lxappearance
+ligthdm
+lightdm-gtk-greeter
+thunar-volman
+gvfs
+udisks2
+grub
+grub-install
+os-prober
