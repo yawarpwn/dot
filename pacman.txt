@@ -1,7 +1,9 @@
 xorg-server
 papirus-icon-theme
+xfce4-settings
 xorg-xinit
 pulseaudio
+pavucontrol
 picom
 xf86-input-synaptics
 less
@@ -53,3 +55,5 @@ rofi
 github-cli
 yt-dlp
 openssh
+thunar
+lxappearance
