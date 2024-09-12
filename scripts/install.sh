@@ -1,7 +1,8 @@
-#!/bin/env bash
+#!/bin/env sh
 set -euo pipefail
 
-# Definicion de colores para mensajes
+
+# Definición de colores para mensajes
 Color_Off=''
 Red=''
 Green=''
@@ -29,11 +30,50 @@ success() {
   echo -e "${Green}${*}${Color_Off}"
 }
 
-# Funcion para verificar si un comando existe
+# Función para verificar si un comando existe
 command_exists() {
   command -v "${1}" >/dev/null 2>&1
 }
 
+
+# Función para instalar paquetes usando pacman
+install_pacman() {
+  local packages=("$@")
+  info "Installing packages: ${packages[*]}"
+  if pacman -S --needed --noconfirm "${packages[@]}"; then
+    success "Packages installed successfully"
+  else
+    error "Error installing packages"
+  fi
+}
+
+# Lista de paquetes a instalar
+packages=(
+  less
+  starship
+  grep
+  htop
+  zoxide
+  lazygit
+  unzip
+  unrar
+  neovim
+  wget
+  fastfetch
+  base-devel
+  stow
+  eza
+  xsel
+  ripgrep
+  fish
+  fzf
+  fd
+)
+
+# Instalar paquetes con pacman
+install_pacman "${packages[@]}"
+
+# Función para instalar software adicional
 install() {
   local name=$1
   local install_cmd=$2
@@ -57,17 +97,17 @@ install() {
 install "starship" "curl -sS https://starship.rs/install.sh | sh" || true
 
 # Intentar instalar bun
-install "bun" "curl -fsSL https://bun.sh/install | bash" || true
+install "bun" "curl -fsSL https://bun.sh/install | sh" || true
 
 # Intentar instalar fnm
 install "fnm" "curl -fsSL https://fnm.vercel.app/install | sh" || true
 
 # Intentar instalar cargo
-install "cargo" "curl https://sh.rustup.rs -sSf | sh" || true
+install "cargo" "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh" || true
 
-#Install nodejs
+# Instalar Node.js LTS si fnm está disponible
 if command_exists "fnm"; then
-  info "installing Node.js LTS version"
+  info "Installing Node.js LTS version"
   if fnm install --lts; then
     success "Node.js LTS version installed successfully"
   else
@@ -76,4 +116,6 @@ if command_exists "fnm"; then
 else
   error "fnm is not installed. Skipping Node.js LTS installation"
 fi
-info "instalations finished"
+
+
+info "Installations finished"

@@ -1,5 +1,5 @@
 scripts
-.config/nvim_bak
+config/nvim_bak
 autohotkey.ahk
 .git
 .gitignore
