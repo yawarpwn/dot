@@ -119,134 +119,206 @@ function check_root {
   fi
 }
 
-function check-installed {
-local metacount
-local installcount
-local package
-local to_install
-while read -r package; do
-  [ -z "${pacakge}" ] && continue
-  metacount=$(pacman -Ss "${package") | 
-    grep -c "(^local.*(.*${package}.*)$" || true
-done
+function check_installed {
+  local metacount
+  local installcount
+  local package
+  local to_install=()
+  while read -r package; do
+    [ -z "${package}" ] && continue
 
-}
+    metacount=$(pacman -Ss "${package}" |
+      grep -c "(.*${package}.*)" || true)
+    installcount=$(pacman -Qs "${package}" |
+      grep -c "^local.*(.*${package}.*)$" || true)
 
-download() {
-  file="$1"
-  url="$2"
+    # Check if package is installed.
+    if pacman -Qi "${package}" >/dev/null 2>&1; then
+      show_listitem "${package@Q} package already installed. Skipping."
 
-  if has curl; then
-    cmd="curl --fail --silent --location --output $file $url"
-  elif has wget; then
-    cmd="wget --quiet --output-document=$file $url"
-  elif has fetch; then
-    cmd="fetch --quiet --output=$file $url"
-  else
-    error "No HTTP download program (curl, wget, fetch) found exiting..."
-  fi
+    # pacman -Qi won't work with meta packages, so check if all meta package
+    # members are installed instead.
+    elif [[ (${installcount} -eq ${metacount}) && ! (${installcount} -eq 0) ]]; then
+      show_listitem "${package@Q} meta-package already installed. Skipping."
 
-  # Ejecuta el comando de descarga y retorna 0 si tiene éxito, de lo contrario captura el código de error.
-  $cmd && return 0 || rc=$?
-
-  error "Command failed (exit code $rc): ${BLUE}${cmd}${NO_COLOR}"
-  printf "\n" >&2
-
-  return "$rc" # Retorna el código de salida del comando fallido.
-
-}
-
-unpack() {
-  archive=$1 # El primer argumento es la ruta del archivo de archivo (archive) que se desea descomprimir.
-  bin_dir=$2 # El segundo argumento es el directorio de destino (bin_dir) donde se extraerá el contenido del archivo.
-  sudo=${3-} # El tercer argumento opcional es el comando sudo, que se utiliza si es necesario permisos de superusuario.
-
-  case "$archive" in
-  # Si el archivo tiene la extensión .tar.gz
-  *.tar.gz)
-    # Define las banderas (flags) para el comando tar, dependiendo de si la variable VERBOSE está establecida.
-    flags=$(test -n "${VERBOSE-}" && echo "-xzvof" || echo "-xzof")
-    # Ejecuta el comando tar para extraer el archivo .tar.gz en el directorio bin_dir.
-    ${sudo} tar "${flags}" "${archive}" -C "${bin_dir}"
-    return 0 # Retorna 0 si el comando tiene éxito.
-    ;;
-  # Si el archivo tiene la extensión .zip
-  *.zip)
-    # Define las banderas (flags) para el comando unzip, dependiendo de si la variable VERBOSE no está establecida.
-    flags=$(test -z "${VERBOSE-}" && echo "-qqo" || echo "-o")
-    # Ejecuta el comando unzip para extraer el archivo .zip en el directorio bin_dir.
-    UNZIP="${flags}" ${sudo} unzip "${archive}" -d "${bin_dir}"
-    return 0 # Retorna 0 si el comando tiene éxito.
-    ;;
-  esac
-
-  # Si el archivo no tiene una extensión reconocida (.tar.gz o .zip), muestra un mensaje de error.
-  error "Unknown package extension."
-  return 1 # Retorna 1 indicando un error.
-}
-
-confirm() {
-  # Verifica si la variable FORCE está vacía
-  if [ -z "${FORCE-}" ]; then
-    # Muestra el mensaje de confirmación con formato especial
-    printf "%s " "${MAGENTA}?${NO_COLOR} $* ${BOLD}[y/N]${NO_COLOR}"
-
-    # Desactiva la opción de salida inmediata en caso de error
-    set +e
-
-    # Lee la respuesta del usuario desde el terminal (no de la entrada estándar)
-    read -r yn </dev/tty
-    rc=$? # Guarda el código de retorno de read
-
-    # Reactiva la opción de salida inmediata en caso de error
-    set -e
-
-    # Verifica si hubo un error al leer la entrada del usuario
-    if [ $rc -ne 0 ]; then
-      # Muestra un mensaje de error y termina el script si hubo un error
-      error "Error reading from prompt (please re-run with the '--yes' option)"
-      exit 1
+    # Runs if package is not installed or all members of meta-package are not
+    # installed.
+    else
+      to_install+=("${package}")
     fi
+  done <"${1}"
+  if [[ -v to_install ]]; then
+    sudo pacman -S --ask 4 --noconfirm "${to_install[@]}"
+  fi
+}
 
-    # Verifica si la respuesta del usuario no es "y" o "yes"
-    if [ "$yn" != "y" ] && [ "$yn" != "yes" ]; then
-      # Muestra un mensaje de error y termina el script si la respuesta no es afirmativa
-      error 'Aborting (please answer "yes" to continue)'
-      exit 1
+function check_aur_installed {
+  local pkgbuilddir="${HOME}/.pkgbuild"
+  local aurprefix="https://aur.archlinux.org"
+  local curdir
+  local metacount
+  local installcount
+  local package
+  curdir="$(pwd)"
+
+  mkdir -p "${pkgbuilddir}"
+  while read -r package; do
+    [ -z "${package}" ] && continue
+
+    metacount=$(pacman -Ss "${package}" |
+      grep -c "(.*${package}.*)" || true)
+    installcount=$(pacman -Qs "${package}" |
+      grep -c "^local.*(.*${package}.*)$" || true)
+
+    # Check if package is installed.
+    if pacman -Qi "${package}" >/dev/null 2>&1; then
+      show_listitem "${package@Q} package already installed. Skipping."
+
+    # Runs if package is not installed or all members of meta-package are not
+    # installed.
+    else
+      show_listitem "Installing ${package@Q}."
+      if ! [ -d "${pkgbuilddir}/${package}" ]; then
+        git clone "${aurprefix}/${package}" "${pkgbuilddir}/${package}"
+      else
+        git -C "${pkgbuilddir}/${package}" clean -xdf
+        git -C "${pkgbuilddir}/${package}" reset --hard
+        git -C "${pkgbuilddir}/${package}" pull origin master
+      fi
+      cd "${pkgbuilddir}/${package}" || exit
+      makepkg --noconfirm -si
+      git clean -xdf
+    fi
+  done <"${1}"
+  cd "${curdir}" || exit
+}
+
+function check_sync_repos {
+  local last_update
+
+  # Check the pacman log to see if synchronized within the past hour. If so,
+  # return.
+  if [ -f /var/log/pacman.log ]; then
+    last_update="$(grep -a "synchronizing package lists$" /var/log/pacman.log |
+      tail -n 1 |
+      sed -n "s/\[\(.*\)\] \[PACMAN\] .*/\1/p")"
+    if [ -n "${last_update}" ]; then
+      if [ "$(date --date="${last_update}" +%s)" -gt \
+        "$(date --date="1 hour ago" +%s)" ]; then
+        return
+      fi
     fi
   fi
+
+  sync_repos
 }
 
-test_writeable() {
-  path="${1:-}/test.txt"
-
-  if touch "$path" 2>/dev/null; then
-    rm "${path}"
-    return 0
+function sync_repos {
+  show_header "Synchronizing repos."
+  if [ ${EUID} -eq 0 ]; then
+    pacman -Sy
   else
-    return 1
+    sudo pacman -Sy
   fi
 }
 
-install() {
-  # ext="$1"
-  url="$1"
+function check_install_commands {
+  local install_cmds=(
+    arch-chroot
+    cryptsetup
+    findmnt
+    fzf
+    genfstab
+    lvcreate
+    mount
+    pacstrap
+    partprobe
+    pvcreate
+    sed
+    sgdisk
+    umount
+    vgcreate
+  )
+  local c
+  for c in "${install_cmds[@]}"; do
+    if ! command -v "${c}" >/dev/null 2>&1; then
+      return 1
+    fi
+  done
+}
 
-  if test_writeable "$1"; then
-    sudo=""
-    msg="Installing, please wait..."
-  else
-    warn "Elevated permissions are reuired to install"
-    #elevate_priv
-    sudo="subo"
-    msg="Installing as root, please wait..."
+function install_post_dependencies {
+  local deps="${DIR}/packages/deps.list"
+  show_header "Checking post-installation dependencies."
+  local package
+  while read -r package; do
+    if ! pacman -Qi "${package}" >/dev/null 2>&1; then
+      show_info "${package@Q} is needed for this script."
+      sudo pacman -S --noconfirm "${package}"
+      show_success "${package@Q} now installed."
+    else
+      show_success "${package@Q} is already installed."
+    fi
+  done <"${deps}"
+}
+
+function install_dependencies {
+  local install="${DIR}/packages/install.list"
+  show_header "Checking installation dependencies."
+
+  local state=true
+  local exe
+  while read -r exe; do
+    if ! command -v "${exe}" >/dev/null; then
+      state=false
+    fi
+  done <"${install}"
+  if "${state}"; then return; fi
+
+  pacman -Sy --noconfirm archlinux-keyring
+
+  local package
+  while read -r package; do
+    if ! pacman -Qi "${package}" >/dev/null 2>&1; then
+      show_info "${package@Q} is needed for this script."
+      pacman -S --noconfirm "${package}"
+      show_success "${package@Q} now installed."
+    else
+      show_success "${package@Q} is already installed."
+    fi
+  done <"${install}"
+}
+
+function check_network {
+  show_header "Checking network connection."
+
+  if ! command -v curl >/dev/null 2>&1; then
+    show_error "curl not installed. Exiting."
+    exit 1
   fi
-  info "$msg"
 
-  archive=$(get_tempFile)
+  if curl -Is --retry 5 --retry-connrefused https://archlinux.org >/dev/null; then
+    show_success "Network is working."
+  else
+    show_error "Cannot start network connection."
+    exit 1
+  fi
+}
 
-  download "$archive" "$url"
+function set_config_key_value {
+  local file="${1}"
+  local key="${2}"
+  local value="${3}"
 
-  unpack "$archive" "/usr/bin" "$sudo"
-
+  if [ -f "${file}" ]; then
+    if grep -q "^${key}" "${file}"; then
+      sed -i "s,^${key}=.*,${key}=${value},g" "${file}"
+    else
+      echo "${key}=${value}" >>"${file}"
+    fi
+  else
+    show_warning "${file@Q} does not exist. Creating new."
+    mkdir -p "$(dirname "${file}")"
+    echo "${key}=${value}" >"${file}"
+  fi
 }
