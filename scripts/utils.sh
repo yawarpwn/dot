@@ -1,38 +1,136 @@
-BOLD="$(tput bold 2>/dev/null || printf '')"
-GREY="$(tput setaf 0 2>/dev/null || printf '')"
-UNDERLINE="$(tput smul 2>/dev/null || printf '')"
-RED="$(tput setaf 1 2>/dev/null || printf '')"
-GREEN="$(tput setaf 2 2>/dev/null || printf '')"
-YELLOW="$(tput setaf 3 2>/dev/null || printf '')"
-BLUE="$(tput setaf 4 2>/dev/null || printf '')"
-MAGENTA="$(tput setaf 5 2>/dev/null || printf '')"
-NO_COLOR="$(tput sgr0 2>/dev/null || printf '')"
+#
+# Fancy color output
+#
 
-info() {
-  printf '%s\n' "${BOLD}${GREY}>${NO_COLOR} $*"
+show_error() {
+  local red=$'\033[0;91m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${red}${*:2}${nc}" 1>&2
+  else
+    echo -e "${red}${*}${nc}" 1>&2
+  fi
+}
+export -f show_error
+
+show_info() {
+  local green=$'\033[0;92m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${green}${*:2}${nc}"
+  else
+    echo -e "${green}${*}${nc}"
+  fi
+}
+export -f show_info
+
+show_warning() {
+  local yellow=$'\033[0;93m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${yellow}${*:2}${nc}"
+  else
+    echo -e "${yellow}${*}${nc}"
+  fi
+}
+export -f show_warning
+
+show_question() {
+  local blue=$'\033[0;94m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${blue}${*:2}${nc}"
+  else
+    echo -e "${blue}${*}${nc}"
+  fi
+}
+export -f show_question
+
+ask_question() {
+  local blue=$'\033[0;94m'
+  local nc=$'\033[0m'
+  local var
+  read -r -p "${blue}$*${nc} " var
+  echo "${var}"
+}
+export -f ask_question
+
+ask_secret() {
+  local blue=$'\033[0;94m'
+  local nc=$'\033[0m'
+  local var
+  stty -echo echonl
+  read -r -p "${blue}$*${nc} " var
+  stty echo -echonl
+  echo "${var}"
+}
+export -f ask_secret
+
+show_success() {
+  local purple=$'\033[0;95m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${purple}${*:2}${nc}"
+  else
+    echo -e "${purple}${*}${nc}"
+  fi
+}
+export -f show_success
+
+show_header() {
+  local cyan=$'\033[0;96m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${cyan}${*:2}${nc}"
+  else
+    echo -e "${cyan}${*}${nc}"
+  fi
+}
+export -f show_header
+
+show_listitem() {
+  local white=$'\033[0;97m'
+  local nc=$'\033[0m'
+  if [[ "${1:--e}" =~ ^(-e|-n)$ ]]; then
+    echo "${1:--e}" "${white}${*:2}${nc}"
+  else
+    echo -e "${white}${*}${nc}"
+  fi
+}
+export -f show_listitem
+
+##
+# Utility functions
+##
+
+function check_user {
+  if [ ${EUID} -eq 0 ]; then
+    show_error "Do not run this script as root. Exiting."
+    exit 1
+  fi
 }
 
-warn() {
-  printf '%s\n' "${YELLOW}! $*${NO_COLOR}"
+function check_root {
+  if [ ${EUID} -eq 0 ]; then
+    show_info "I am root."
+  else
+    show_error "I need to be root."
+    exit 1
+  fi
 }
 
-error() {
-  printf '%s\n' "${RED}x $*${NO_COLOR}" >&2
-}
+function check-installed {
+local metacount
+local installcount
+local package
+local to_install
+while read -r package; do
+  [ -z "${pacakge}" ] && continue
+  metacount=$(pacman -Ss "${package") | 
+    grep -c "(^local.*(.*${package}.*)$" || true
+done
 
-success() {
-  printf '%s\n' "${GREEN}✓${NO_COLOR} $*"
 }
-
-has() {
-  command -v "$1" 1>/dev/null 2>&1
-}
-
-# get_tempFile() {
-#   if has mktemp; then
-#     echo "$"
-#   fi
-# }
 
 download() {
   file="$1"
@@ -64,22 +162,22 @@ unpack() {
   sudo=${3-} # El tercer argumento opcional es el comando sudo, que se utiliza si es necesario permisos de superusuario.
 
   case "$archive" in
-    # Si el archivo tiene la extensión .tar.gz
-    *.tar.gz)
-      # Define las banderas (flags) para el comando tar, dependiendo de si la variable VERBOSE está establecida.
-      flags=$(test -n "${VERBOSE-}" && echo "-xzvof" || echo "-xzof")
-      # Ejecuta el comando tar para extraer el archivo .tar.gz en el directorio bin_dir.
-      ${sudo} tar "${flags}" "${archive}" -C "${bin_dir}"
-      return 0 # Retorna 0 si el comando tiene éxito.
-      ;;
-    # Si el archivo tiene la extensión .zip
-    *.zip)
-      # Define las banderas (flags) para el comando unzip, dependiendo de si la variable VERBOSE no está establecida.
-      flags=$(test -z "${VERBOSE-}" && echo "-qqo" || echo "-o")
-      # Ejecuta el comando unzip para extraer el archivo .zip en el directorio bin_dir.
-      UNZIP="${flags}" ${sudo} unzip "${archive}" -d "${bin_dir}"
-      return 0 # Retorna 0 si el comando tiene éxito.
-      ;;
+  # Si el archivo tiene la extensión .tar.gz
+  *.tar.gz)
+    # Define las banderas (flags) para el comando tar, dependiendo de si la variable VERBOSE está establecida.
+    flags=$(test -n "${VERBOSE-}" && echo "-xzvof" || echo "-xzof")
+    # Ejecuta el comando tar para extraer el archivo .tar.gz en el directorio bin_dir.
+    ${sudo} tar "${flags}" "${archive}" -C "${bin_dir}"
+    return 0 # Retorna 0 si el comando tiene éxito.
+    ;;
+  # Si el archivo tiene la extensión .zip
+  *.zip)
+    # Define las banderas (flags) para el comando unzip, dependiendo de si la variable VERBOSE no está establecida.
+    flags=$(test -z "${VERBOSE-}" && echo "-qqo" || echo "-o")
+    # Ejecuta el comando unzip para extraer el archivo .zip en el directorio bin_dir.
+    UNZIP="${flags}" ${sudo} unzip "${archive}" -d "${bin_dir}"
+    return 0 # Retorna 0 si el comando tiene éxito.
+    ;;
   esac
 
   # Si el archivo no tiene una extensión reconocida (.tar.gz o .zip), muestra un mensaje de error.
