@@ -7,3 +7,16 @@ xdg-user-dirs
 xdg-user-dirs-gtk
 xdg-utils
 xorg-server
+xorg-xinit
+pulseaudio
+pavucontrol
+picom
+papirus-icon-theme
+thunar-volman
+gvfs
+udisks2
+grub
+os-prober
+thunar
+lxappearance
+rofi

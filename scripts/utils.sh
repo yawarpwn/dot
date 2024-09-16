@@ -222,6 +222,28 @@ function sync_repos {
   fi
 }
 
+function install_packages {
+  pacman --noconfirm -S \
+    base-devel \
+    bash-completion \
+    cryptsetup \
+    curl \
+    fzf \
+    git \
+    iwd \
+    linux \
+    linux-firmware \
+    linux-headers \
+    lsb-release \
+    lvm2 \
+    man-db \
+    man-pages \
+    networkmanager \
+    pacman-contrib \
+    rsync
+  systemctl enable NetworkManager
+}
+
 function check_install_commands {
   local install_cmds=(
     arch-chroot

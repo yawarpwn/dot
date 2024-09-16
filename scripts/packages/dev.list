@@ -19,6 +19,12 @@ firefox
 ffmpeg
 lazygit
 python-pynvim
+python-pip
+python
+python-pipx
 ripgrep
 python-neovim
 wl-clipboard
+stow
+yt-dlp
+sqlfluff

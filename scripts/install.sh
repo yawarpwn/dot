@@ -87,6 +87,8 @@ function install_deps() {
   show_header "Installing dependencies."
   check_installed "${dev_list}"
 
+  install_rust
+
   # Install Bun
   if ! command -v bun >/dev/null; then
     curl -fsSL https://bun.sh/install | sh
@@ -138,6 +140,10 @@ function main() {
     "Quit"
     "Essential"
     "Dev"
+    "Aur"
+    "Printer"
+    "Fonts"
+    "Network"
     "Openbox")
 
   select option in "${options[@]}"; do
@@ -164,6 +170,45 @@ function main() {
 
       show_info "Main (Hit ENTER to see options again.)"
       ;;
+    "Aur")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_aur_deps
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+
+    "Fonts")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_fonts
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+    "Printer")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_printer
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+
+    "Network")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_network
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+
     "Openbox")
       echo "Base"
       ;;
@@ -175,7 +220,8 @@ function main() {
 
 }
 
-check_user
+# Check permissions and network. before
+check_root
 check_network
 
 main

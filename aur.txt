@@ -1,5 +1,0 @@
-ksuperkey
-ttf-maple
-wezterm
-xfce4-power-manager
-
