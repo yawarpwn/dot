@@ -1,0 +1,9 @@
+openbox
+lightdm
+lightdm-gtk-greeter
+networkmanager
+xdg-desktop-portal-gtk
+xdg-user-dirs
+xdg-user-dirs-gtk
+xdg-utils
+xorg-server

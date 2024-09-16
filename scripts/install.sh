@@ -1,121 +1,128 @@
-#!/bin/env sh
-set -euo pipefail
+#!/bin/bash
 
+DIR="$(dirname "$0")"
+##
+# Source the utils
+##
+. "$DIR"/utils.sh
 
-# Definición de colores para mensajes
-Color_Off=''
-Red=''
-Green=''
-# Bold_Green=''
-Bold_White=''
+function install_network {
+  local networking="$DIR/packages/network.list"
+  local nmconf="/etc/NetworkManager/NetworkManager.conf"
+  local nmrandomconf="/etc/NetworkManager/conf.d/randomize_mac_address.conf"
 
-if [[ -t 1 ]]; then
-  Color_Off='\033[0m'
-  Red='\033[0;31m'
-  Green='\033[0;32m'
-  # Bold_Green='\033[1;32m'
-  Bold_White='\033[1m'
-fi
+  show_header "setting up networking."
+  check_installed
+  show_success "Networking aplications installed."
+  check_installed "${networking}"
 
-# Funciones para mostrar mensajes
-error() {
-  echo -e "${Red}error${Color_Off}: ${*}" >&2
+  show_info "Setting up MAC address randomization in Network Manager."
+  if ! find "${nmconf}" /etc/NetworkManager/conf.d/ -type f -exec grep -q "mac-address=random" {} +; then
+    sudo tee -a "${nmrandomconf}" >/dev/null <<EOF
+[connection-mac-randomization]
+wifi.cloned-mac-address=random
+ethernet.cloned-mac-address=random
+EOF
+  fi
+
+  show_info "Enabling NetworkManager service."
+  sudo systemctl enable --now NetworkManager
+
+  show_info "Disabling SSH root login and forcing SSH v2."
+  sudo sed -i \
+    -e "/^#PermitRootLogin prohibit-password$/a PermitRootLogin no" \
+    -e "/^#Port 22$/i Protocol 2" \
+    /etc/ssh/sshd_config
+
 }
 
-info() {
-  echo -e "${Bold_White}${*}${Color_Off}"
-}
+function install_fonts {
+  local font_list="$DIR/packages/fonts.list"
+  show_header "Installing fonts."
+  check_installed "${font_list}"
+  show_success "Fonts installed."
 
-success() {
-  echo -e "${Green}${*}${Color_Off}"
-}
-
-# Función para verificar si un comando existe
-command_exists() {
-  command -v "${1}" >/dev/null 2>&1
-}
-
-
-# Función para instalar paquetes usando pacman
-install_pacman() {
-  local packages=("$@")
-  info "Installing packages: ${packages[*]}"
-  if pacman -S --needed --noconfirm "${packages[@]}"; then
-    success "Packages installed successfully"
-  else
-    error "Error installing packages"
+  show_info "Setting nerd font config."
+  if ! [ -d /etc/fonts/conf.d ]; then
+    show_warning "'/etc/fonts/conf.d' for fontconfig is missing. Skipping."
+  elif ! [ -e /etc/fonts/conf.d/10-nerd-font-symbols.conf ]; then
+    sudo ln -s \
+      /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf \
+      /etc/fonts/conf.d/
   fi
 }
 
-# Lista de paquetes a instalar
-packages=(
-  less
-  starship
-  grep
-  htop
-  zoxide
-  lazygit
-  unzip
-  unrar
-  neovim
-  wget
-  fastfetch
-  base-devel
-  stow
-  eza
-  xsel
-  ripgrep
-  fish
-  fzf
-  fd
-)
+function install_rust {
+  show_info "Installing rust stable toolchain."
+  rustup default stable
 
-# Instalar paquetes con pacman
-install_pacman "${packages[@]}"
+  show_info "Building local cache of cargo crates."
+  local tmpdir
+  tmpdir="$(mktemp -d)"
+  git clone --depth 1 https://github.com/sudorook/crate_dl.git "${tmpdir}"
+  pushd "${tmpdir}" >/dev/null || exit
+  cargo fetch
+  popd >/dev/null || exit
+  rm -rf "${tmpdir}"
+}
 
-# Función para instalar software adicional
-install() {
-  local name=$1
-  local install_cmd=$2
+function install_printer() {
+  local printer_list="$DIR"/packages/printer.list
+  show_header "Installing CPUS and printer firmware."
+  check_installed "${printer_list}"
+  show_success "Printing applications installed."
+  sudo systemctl enable --now cups
 
-  if command_exists "${name}"; then
-    success "${name} is already installed"
-    return 0
+}
+
+function install_deps() {
+  local dev_list="$DIR/packages/dev.list"
+  show_header "Installing dependencies."
+  check_installed "${dev_list}"
+  show_success "deps dependencies installed."
+}
+
+function install_aur_deps() {
+  local dev_aur_list="$DIR/packages/dev-aur.list"
+  show_header "Installing AUR dependencies."
+  check_aur_installed "${dev_aur_list}"
+  show_success "AUR dependencies installed."
+}
+
+function install_laptop {
+  local laptop_list="${DIR}/packages/laptop.list"
+
+  show_header "Installing laptop utilities."
+  check_installed "${laptop_list}"
+  show_success "Laptop utilities installed."
+
+  # Enable tlp on laptops.
+  show_info "Enabling and starting tlp systemd units."
+  sudo systemctl enable tlp.service
+  sudo systemctl start tlp.service
+  show_success "tlp enabled."
+}
+
+#TODO: Install openbox script
+
+function main() {
+
+  install_deps
+  install_aur_deps
+
+  # Install Bun
+  if ! command -v bun >/dev/null; then
+    curl -fsSL https://bun.sh/install | sh
   else
-    info "Installing ${name}"
-    if eval "$install_cmd"; then
-      success "$name installed correctly"
-      return 0
-    else
-      error "Error installing ${name}"
-      return 1
-    fi
+    show_success "bun already installed"
+  fi
+
+  #Install Fnm
+  if ! command -v fnm >/dev/null; then
+    curl -fsSL https://fnm.vercel.app/install | sh
+  else
+    show_success "fnm already installed"
   fi
 }
 
-# Intentar instalar starship
-install "starship" "curl -sS https://starship.rs/install.sh | sh" || true
-
-# Intentar instalar bun
-install "bun" "curl -fsSL https://bun.sh/install | sh" || true
-
-# Intentar instalar fnm
-install "fnm" "curl -fsSL https://fnm.vercel.app/install | sh" || true
-
-# Intentar instalar cargo
-install "cargo" "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh" || true
-
-# Instalar Node.js LTS si fnm está disponible
-if command_exists "fnm"; then
-  info "Installing Node.js LTS version"
-  if fnm install --lts; then
-    success "Node.js LTS version installed successfully"
-  else
-    error "Error installing Node.js LTS version"
-  fi
-else
-  error "fnm is not installed. Skipping Node.js LTS installation"
-fi
-
-
-info "Installations finished"
+install_laptop
