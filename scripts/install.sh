@@ -75,10 +75,32 @@ function install_printer() {
 
 }
 
+function install_essential() {
+  local essential_list="$DIR/packages/essential.list"
+  show_header "Installing essential packages."
+  check_installed "${essential_list}"
+  show_success "Essential packages installed."
+}
+
 function install_deps() {
   local dev_list="$DIR/packages/dev.list"
   show_header "Installing dependencies."
   check_installed "${dev_list}"
+
+  # Install Bun
+  if ! command -v bun >/dev/null; then
+    curl -fsSL https://bun.sh/install | sh
+  else
+    show_success "bun already installed"
+  fi
+
+  #Install Fnm
+  if ! command -v fnm >/dev/null; then
+    curl -fsSL https://fnm.vercel.app/install | sh
+  else
+    show_success "fnm already installed"
+  fi
+
   show_success "deps dependencies installed."
 }
 
@@ -103,26 +125,57 @@ function install_laptop {
   show_success "tlp enabled."
 }
 
+function install_extras {
+  echo "todo"
+}
+
 #TODO: Install openbox script
 
 function main() {
+  show_question "Select an option:"
+  show_info "Main (Hit ENTER to see options again.)"
+  local options=(
+    "Quit"
+    "Essential"
+    "Dev"
+    "Openbox")
 
-  install_deps
-  install_aur_deps
+  select option in "${options[@]}"; do
+    case "${option}" in
+    "Quit")
+      show_success "I hope this was as fun for you as it was for me."
+      break
+      ;;
+    "Essential")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_essential
+      fi
 
-  # Install Bun
-  if ! command -v bun >/dev/null; then
-    curl -fsSL https://bun.sh/install | sh
-  else
-    show_success "bun already installed"
-  fi
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+    "Dev")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_deps
+      fi
 
-  #Install Fnm
-  if ! command -v fnm >/dev/null; then
-    curl -fsSL https://fnm.vercel.app/install | sh
-  else
-    show_success "fnm already installed"
-  fi
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+    "Openbox")
+      echo "Base"
+      ;;
+    *)
+      show_warning "Invalid option."
+      ;;
+    esac
+  done
+
 }
 
-install_laptop
+check_user
+check_network
+
+main
