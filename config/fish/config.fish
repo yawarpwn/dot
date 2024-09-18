@@ -9,17 +9,24 @@ fish_add_path ~/.bun/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.local/bin
 fish_add_path /opt/nvim-linux64/bin
+fish_add_path ~/.local/bin/pnpm
+fish_add_path ~/Library/Python/3.{8,9}/bin
+fish_add_path /usr/local/opt/sqlite/bin
 fish_add_path /bin
 fish_add_path /.local/bin/pnpm
 
 set -gx DENO_INSTALL '~/.deno'
 fish_add_path ~/.deno/bin
 
+set -gx EDITOR (which nvim)
+set -gx VISUAL $EDITOR
+set -gx SUDO_EDITOR $EDITOR
 
 starship init fish | source
 zoxide init fish | source
 
 # Dev
+alias lazygit "TERM=xterm-256color command lazygit"
 abbr gg lazygit
 abbr gl 'git l --color | devmoji --log --color | less -rXF'
 abbr gs "git st"
