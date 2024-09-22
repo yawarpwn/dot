@@ -69,19 +69,6 @@ function install_openbox {
   xdg-user-dirs-update
 }
 
-function install_zsh {
-  local zsh="${DIR}/packages/zsh.list"
-  local zshrc="${DIR}/dotfiles/zshrc"
-
-  show_header "Installing Zsh."
-  check_installed "${zsh}"
-  show_success "Zsh installed."
-
-  mkdir -p "${HOME}/.local/share/zsh/site-functions"
-
-  copy_config_file "${zshrc}" "${HOME}/.zshrc"
-}
-
 function set_bash_shell {
   local bashrc="${DIR}/dotfiles/bashrc"
   local bashprofile="${DIR}/dotfiles/bash_profile"
@@ -100,28 +87,6 @@ function set_bash_shell {
 
   copy_config_file "${bashprofile}" "${HOME}/.bash_profile"
   copy_config_file "${bashrc}" "${HOME}/.bashrc"
-}
-
-function set_zsh_shell {
-  local zshrc="${DIR}/dotfiles/zshrc"
-  local p10krc="${DIR}/dotfiles/p10k"
-
-  if ! command -v zsh >/dev/null 2>&1; then
-    show_warning "Zsh not installed. Skipping."
-    return
-  fi
-
-  if ! grep -q "zsh" <(getent passwd "$(whoami)"); then
-    show_info "Changing login shell to Zsh. Provide your password."
-    chsh -s /bin/zsh
-  else
-    show_info "Default shell already set to Zsh."
-  fi
-
-  mkdir -p "${HOME}/.local/share/zsh/site-functions"
-
-  copy_config_file "${zshrc}" "${HOME}/.zshrc"
-  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
 }
 
 function disable_pulseaudio_suspend {

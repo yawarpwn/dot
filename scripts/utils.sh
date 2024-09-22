@@ -344,3 +344,53 @@ function set_config_key_value {
     echo "${key}=${value}" >"${file}"
   fi
 }
+
+function copy_config_file {
+  local source="${1}"
+  local dest="${2}"
+
+  if ! [ -f "${source}" ]; then
+    show_error "${source@Q} not found. Exiting."
+    exit 1
+  fi
+
+  show_info "Copying ${source@Q} to ${dest@Q}."
+  if [ -f "${dest}" ]; then
+    if ! cmp -s "${source}" "${dest}"; then
+      show_info "Backing up existing ${dest@Q}."
+      mv -v "${dest}" "${dest}_$(date +%Y%m%d-%k%M%S).bak"
+      cp -v "${source}" "${dest}"
+    else
+      show_info "${dest} already set."
+    fi
+  else
+    mkdir -p "$(dirname "${dest}")"
+    cp -v "${source}" "${dest}"
+  fi
+}
+
+function _get_kwrite_config {
+  if command -v kwriteconfig6 >/dev/null; then
+    echo kwriteconfig6
+    return
+  elif command -v kwriteconfig5 >/dev/null; then
+    echo kwriteconfig5
+    return
+  else
+    show_warning "No kwriteconfig executable found." >&2
+    return 1
+  fi
+}
+
+function _get_qdbus {
+  if command -v qdbus6 >/dev/null; then
+    echo qdbus6
+    return
+  elif command -v qdbus >/dev/null; then
+    echo qdbus
+    return
+  else
+    show_warning "No qdbus executable found." >&2
+    return 1
+  fi
+}

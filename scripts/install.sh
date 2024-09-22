@@ -20,6 +20,7 @@ function main() {
     "Fonts"
     "Network"
     "Plymouth"
+    "Install Zsh"
     "Openbox")
 
   select option in "${options[@]}"; do
@@ -95,6 +96,16 @@ function main() {
       show_info "Main (Hit ENTER to see options again.)"
       ;;
 
+    "Install Zsh")
+      local response
+      response=$(ask_question "Let this script install everything? (y/N)")
+      if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        install_zsh
+      fi
+
+      show_info "Main (Hit ENTER to see options again.)"
+      ;;
+
     "Openbox")
       install_openbox
       ;;
@@ -107,7 +118,7 @@ function main() {
 }
 
 # Check permissions and network. before
-check_root
-check_network
+# check_root
+# check_network
 
 main

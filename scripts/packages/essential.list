@@ -2,6 +2,7 @@ clang
 make
 bat
 tar
+fzf
 gcc
 git
 grep
@@ -22,3 +23,9 @@ tree
 openssl
 base-devel
 xf86-input-synaptics
+man-db
+man-pages
+rsync
+bash-completion
+pacman-contrib
+lvm2

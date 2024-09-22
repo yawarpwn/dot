@@ -1,3 +1,46 @@
+DIR="$(dirname "$0")"
+##
+# Source the utils
+##
+. "$DIR"/utils.sh
+
+function set_zsh_shell {
+  local zshrc="${DIR}/dotfiles/zshrc"
+  local p10krc="${DIR}/dotfiles/p10k"
+
+  if ! command -v zsh >/dev/null 2>&1; then
+    show_warning "Zsh not installed. Skipping."
+    return
+  fi
+
+  if ! grep -q "zsh" <(getent passwd "$(whoami)"); then
+    show_info "Changing login shell to Zsh. Provide your password."
+    chsh -s /bin/zsh
+  else
+    show_info "Default shell already set to Zsh."
+  fi
+
+  mkdir -p "${HOME}/.local/share/zsh/site-functions"
+
+  copy_config_file "${zshrc}" "${HOME}/.zshrc"
+  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
+}
+
+function install_zsh {
+  local zsh="${DIR}/packages/zsh.list"
+  local zshrc="${DIR}/dotfiles/zshrc"
+  local p10krc="${DIR}/dotfiles/p10k"
+
+  show_header "Installing Zsh."
+  check_installed "${zsh}"
+  show_success "Zsh installed."
+
+  mkdir -p "${HOME}/.local/share/zsh/site-functions"
+
+  copy_config_file "${zshrc}" "${HOME}/.zshrc"
+  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
+}
+
 function install_network {
   local networking="$DIR/packages/network.list"
   local nmconf="/etc/NetworkManager/NetworkManager.conf"
@@ -25,6 +68,13 @@ EOF
     -e "/^#Port 22$/i Protocol 2" \
     /etc/ssh/sshd_config
 
+}
+
+function install_bluetooth {
+  #Install deps
+  pacman -S --needed --noconfirm bluez bluez-utils blueman
+  sudo systemctl start bluetooth.service
+  sudo systemctl enable bluetooth.service
 }
 
 function install_fonts {
