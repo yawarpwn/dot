@@ -25,6 +25,8 @@ elif command -v vim > /dev/null 2>&1; then
 fi
 export VISUAL="${EDITOR}"
 
+export PATH="${HOME}/.bun/bin:${PATH}"
+
 #
 # Set environment variables for programming languages
 #
@@ -54,12 +56,6 @@ if command -v cargo > /dev/null 2>&1; then
   fi
 fi
 
-if command -v luarocks > /dev/null 2>&1; then
-  if ! [[ "${PATH}" =~ :?${HOME}/.luarocks/bin:? ]]; then
-    export PATH="${HOME}/.luarocks/bin:${PATH}"
-  fi
-fi
-
 # npm
 if command -v npm > /dev/null 2>&1; then
   export NPM_CONFIG_PREFIX="${HOME}/.npm"
@@ -68,22 +64,6 @@ if command -v npm > /dev/null 2>&1; then
   fi
 fi
 
-# R
-if command -v R Rscript > /dev/null 2>&1; then
-  R_LIBS_USER="$(Rscript --version)"
-  R_LIBS_USER=("${=R_LIBS_USER}")
-  R_LIBS_USER="${HOME}/.R/${R_LIBS_USER[4]}"
-  if [ -n "${R_LIBS_USER}" ]; then
-    export R_LIBS_USER
-    if ! [ -d "${R_LIBS_USER}" ]; then
-      mkdir -p "${R_LIBS_USER}"
-    fi
-    alias R='R --no-save '
-    if [ -d /usr/share/mathjax ]; then
-      export RMARKDOWN_MATHJAX_PATH=/usr/share/mathjax
-    fi
-  fi
-fi
 
 # zsh
 if [ -d ${HOME}/.local/share/zsh/site-functions ]; then
@@ -126,6 +106,19 @@ alias scp='noglob scp'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias happymake='make -j$(nproc) && sudo make install'
+
+#alias Dev
+alias lazygit="TERM=xterm-256color command lazygit"
+alias gg=lazygit
+
+#files & Diectories
+alias mv="mv -iv"
+alias cp="cp -riv"
+alias mkdir="mkdir -p"
+alias ls='eza --color=always --icons --group-directories-first'
+alias la='eza --color=always --icons --group-directories-first --all'
+alias ll='eza --color=always --icons --group-directories-first --all --long'
+alias la='ls -lAh'
 
 function superupgrade {
   sudo sh -c 'pacman -Syu && paccache -r && paccache -ruk0'
@@ -180,13 +173,6 @@ if { command -v yt-dlp && ! command -v youtube-dl; } > /dev/null 2>&1; then
   alias youtube-dl='yt-dlp '
 fi
 
-# list directory contents
-alias ls='ls --color=auto'
-alias sl='ls'
-alias lsa='ls -lah'
-alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
 
 #
 # Color terminal output
@@ -225,7 +211,6 @@ include /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #zoxide
 eval "$(zoxide init zsh)"
-#starship
 eval "$(starship init zsh)"
 
 unset -f include
