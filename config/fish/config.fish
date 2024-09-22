@@ -37,6 +37,7 @@ abbr gm "git branch -l main | rg main > /dev/null 2>&1 && hub checkout main || h
 abbr gcp "git commit -p"
 abbr gpp "git push"
 abbr gp "git pull"
+abbr calc "rofi -show calc -modi calc -no-show-match -no-sort"
 
 # Files & Directories
 abbr mv "mv -iv"
