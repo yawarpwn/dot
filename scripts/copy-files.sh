@@ -1,6 +1,6 @@
 #!/bin/bash
 
-files=(rofi openbox polybar picom dunst nitrogen)
+files=(rofi openbox polybar picom dunst nitrogen bspwm sxhkd)
 
 dots=(.zshrc .bashrc .p10k.zsh .bash_profile)
 
