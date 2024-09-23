@@ -5,7 +5,7 @@ sudo pacman -S xorg-setxkbmap
 setxkbmap -layout us -variant altgr-intl
 
 # Create or edit the Xorg configuration file:
-sudo nano /etc/X11/xorg.conf.d/00-keyboard.conf
+sudo touch /etc/X11/xorg.conf.d/00-keyboard.conf
 
 #  Section "InputClass"
 #     Identifier "system-keyboard"

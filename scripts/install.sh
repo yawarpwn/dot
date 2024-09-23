@@ -31,7 +31,7 @@ function main() {
       ;;
     "Essential")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_essential
       fi
@@ -40,7 +40,7 @@ function main() {
       ;;
     "Dev")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_deps
       fi
@@ -49,7 +49,7 @@ function main() {
       ;;
     "Aur")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_aur_deps
       fi
@@ -59,7 +59,7 @@ function main() {
 
     "Fonts")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_fonts
       fi
@@ -68,7 +68,7 @@ function main() {
       ;;
     "Printer")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_printer
       fi
@@ -78,7 +78,7 @@ function main() {
 
     "Network")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_network
       fi
@@ -88,7 +88,7 @@ function main() {
 
     "Plymouth")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_plymouth
       fi
@@ -98,7 +98,7 @@ function main() {
 
     "Install Zsh")
       local response
-      response=$(ask_question "Let this script install everything? (y/N)")
+      response=$(ask_question "Are you sure? (y/N)")
       if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         install_zsh
       fi
