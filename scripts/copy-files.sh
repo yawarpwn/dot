@@ -1,8 +1,8 @@
 #!/bin/bash
 
-files=(rofi openbox polybar picom dunst nitrogen bspwm sxhkd)
+files=(rofi openbox polybar picom dunst nitrogen bspwm sxhkd xsettingsd)
 
-dots=(.zshrc .bashrc .p10k.zsh .bash_profile)
+dots=(.zshrc .bashrc .p10k.zsh .bash_profile .fehbg)
 
 for file in "${files[@]}"; do
   rm -rf "$HOME/dot/scripts/dotfiles/$file"

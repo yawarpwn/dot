@@ -1,10 +1,12 @@
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
+
 [global]
 monitor = 0
 follow = mouse
 width = 300
 height = 80
 origin = top-right
-offset = 10x40
+offset = 10x42
 corner_radius = 0
 scale = 0
 notification_limit = 0
@@ -24,7 +26,7 @@ gap_size = 0
 separator_color = frame
 sort = yes
 idle_threshold = 120
-font = JetBrainsMono Nerd Font 10
+font = Iosevka Custom 9
 line_height = 1
 markup = full
 format = %s\n%b
@@ -52,18 +54,18 @@ class = Dunst
 
 [urgency_low]
 timeout = 2
-background = "#090A0B"
-foreground = "#E6DFE0"
-frame_color = "#b8543e"
+background = "#2E3440"
+foreground = "#D8DEE9"
+frame_color = "#81A1C1"
 
 [urgency_normal]
 timeout = 5
-background = "#090A0B"
-foreground = "#E6DFE0"
-frame_color = "#b8543e"
+background = "#2E3440"
+foreground = "#D8DEE9"
+frame_color = "#81A1C1"
 
 [urgency_critical]
 timeout = 0
-background = "#090A0B"
-foreground = "#e06c75"
-frame_color = "#e06c75"
+background = "#2E3440"
+foreground = "#BF616A"
+frame_color = "#BF616A"
