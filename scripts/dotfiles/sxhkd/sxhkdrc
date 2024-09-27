@@ -8,9 +8,15 @@ super + Return
 # lanzador de programas
 super + @space
   rofi -show drun
+
 alt + F1
   rofi -show drun
 
+#Rofi calc
+super + i
+  rofi -show calc
+
+#app
 super + {w,e}
   {firefox, thunar}
 
