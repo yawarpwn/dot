@@ -15,7 +15,7 @@ fi
 # Global settings
 #
 
-export BROWSER="firefox"
+# export BROWSER="firefox"
 if command -v nvim > /dev/null 2>&1; then
   export EDITOR="nvim"
   export DIFFPROG="nvim -d"

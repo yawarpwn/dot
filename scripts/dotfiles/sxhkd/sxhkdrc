@@ -3,7 +3,7 @@
 
 # terminal 
 super + Return
-	wezterm
+  kitty	
 
 # lanzador de programas
 super + @space
@@ -73,9 +73,9 @@ alt + {_,shift + }Tab
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
-# Toggle beetwen floating & tiled
-# super + space
-#     bspc node -t "~"{floating,tiled}
+#Toggle beetwen floating & tiled
+super + n 
+    bspc node -t "~"{floating,tiled}
 
 #
 ## enfoque/intercambio

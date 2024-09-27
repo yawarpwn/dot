@@ -669,7 +669,7 @@
     <!-- Apps -->
     <keybind key="W-Return">
       <action name="Execute">
-        <command>wezterm</command>
+        <command>kitty</command>
       </action>
     </keybind>
     <!-- Calc -->

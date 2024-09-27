@@ -1,8 +1,8 @@
 #! /bin/sh
 
 ## Bspwm colors
-FOCUS_BORDER_COLOR='#81A1C1'
-NORMAL_BORDER_COLOR='#2E3440'
+FOCUS_BORDER_COLOR='#252525'
+NORMAL_BORDER_COLOR='#11111'
 ACTIVE_BORDER_COLOR='#B48EAD'
 FEEDBACK_COLOR='#A3BE8C'
 
@@ -39,8 +39,8 @@ bspc rule -a Wezterm desktop='^1' follow=on focus=on
 bspc rule -a Kitty desktop='^1' follow=on focus=on
 
 ## 2 > web (always open web browser on workspace-2)
-bspc rule -a firefox desktop='^2' follow=on focus=on
-bspc rule -a chromium desktop='^2' follow=on focus=on
+# bspc rule -a firefox desktop='^2' follow=on focus=on
+# bspc rule -a chromium desktop='^2' follow=on focus=on
 
 ## 3 > files (always open file manager on workspace-3)
 declare -a files=(Pcmanfm Thunar qBittorrent)
