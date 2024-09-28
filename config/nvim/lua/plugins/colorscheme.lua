@@ -23,7 +23,7 @@ return {
         floats = transparent and "transparent" or "dark",
       },
       on_colors = function(colors)
-        colors.bg = bg
+        -- colors.bg = bg
         -- colors.bg_dark = transparent and colors.none or bg_dark
         -- colors.bg_float = transparent and colors.none or bg_dark
         -- colors.bg_highlight = bg_highlight

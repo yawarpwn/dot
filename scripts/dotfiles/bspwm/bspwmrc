@@ -1,5 +1,11 @@
 #! /bin/sh
 
+BSPDIR="$HOME/.config/bspwm"
+
+#export bspwm/bin  dir to PATH
+export PAtH="${PATH}:$BSPDIR/scripts"
+export XDG_CURRENT_DESKTOP='bspwm'
+
 ## Bspwm colors
 FOCUS_BORDER_COLOR='#252525'
 NORMAL_BORDER_COLOR='#11111'
@@ -93,7 +99,7 @@ xsettingsd &
 # Enable power management
 xfce4-power-manager &
 
-###Notification
+# Notification
 if [[ `pidof dunst` ]]; then
 	pkill dunst
 fi
