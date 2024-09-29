@@ -1,10 +1,11 @@
 scripts
 config/nvim_bak
+config/paru
+config/wezterm
+config/fish
 autohotkey.ahk
 .git
 .gitignore
 .gitconfig
 README.md
-pacman.txt
-aur.txt
 rc.html

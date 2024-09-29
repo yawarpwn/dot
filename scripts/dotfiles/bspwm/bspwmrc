@@ -3,7 +3,7 @@
 BSPDIR="$HOME/.config/bspwm"
 
 #export bspwm/bin  dir to PATH
-export PAtH="${PATH}:$BSPDIR/scripts"
+export PATH="${PATH}:$BSPDIR/scripts"
 export XDG_CURRENT_DESKTOP='bspwm'
 
 ## Bspwm colors
@@ -73,28 +73,34 @@ pgrep -x sxhkd >/dev/null || sxhkd &
 killall -9 xsettingsd sxhkd dunst ksuperkey xfce4-power-manager bspc
 # nitrogen --restore &
 
+# Lauch keybindings daemon
+sxhkd -c "$BSPDIR"/sxhkdrc &
+
 #Enable Super Keys For Menu
 ksuperkey -e 'Super_L=Alt_L|F1' &
 ksuperkey -e 'Super_R=Alt_R|F1' &
 
 # Restore wallpaper
-~/.fehbg &
+bash ~/.fehbg &
 
 ### Status bar
 # fix padding
 bspc config bottom_padding 0
 bspc config top_padding 0
-polybar &
+bash "$BSPDIR/polybar/launch.sh"
 
-### Compositor X11
+## Compositor
 # Terminate if picom is already running
 killall -q picom
+
 # Wait until the processes have been shut down
 while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-picom &
+
+# Launch picom
+picom --config "$BSPDIR/picom.conf" &
 
 # Lauch xsettingsd daemon
-xsettingsd &
+xsettingsd --config="$BSPDIR"/xsettingsd &
 
 # Enable power management
 xfce4-power-manager &
@@ -103,7 +109,7 @@ xfce4-power-manager &
 if [[ `pidof dunst` ]]; then
 	pkill dunst
 fi
-dunst &
+dunst --config "$DIR/dunstrc" &
 
 ## All windows are floating on desktop 8
 FLOATING_DESKTOP_ID=$(bspc query -D -d '^5')
