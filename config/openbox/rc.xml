@@ -25,7 +25,7 @@
   </placement>
   <!-- Theme -->
   <theme>
-    <name>Dracula-withoutBorder</name>
+    <name>Dracula</name>
     <titleLayout>DLIMC</titleLayout>
     <keepBorder>no</keepBorder>
     <animateIconify>yes</animateIconify>
