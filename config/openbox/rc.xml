@@ -675,7 +675,7 @@
     <!-- Calc -->
     <keybind key="W-i">
       <action name="Execute">
-        <command>rofi -show calc -modi calc -no-show-match -no-sort</command>
+        <command>rofi -show calc -modi calc -no-show-match -no-sort -theme ~/.config/openbox/rofi/calc.rasi</command>
       </action>
     </keybind>
     <!-- <keybind key="W-f"> -->
@@ -701,7 +701,7 @@
     <!-- Rofi -->
     <keybind key="A-F1">
       <action name="Execute">
-        <command>rofi -show drun</command>
+        <command>rofi -show drun -theme ~/.config/openbox/rofi/launcher.rasi</command>
       </action>
     </keybind>
     <keybind key="W-n">
@@ -740,19 +740,9 @@
         <command>xfce4-terminal</command>
       </action>
     </keybind>
-    <keybind key="C-A-v">
-      <action name="Execute">
-        <command>alacritty -e vim</command>
-      </action>
-    </keybind>
     <keybind key="C-A-r">
       <action name="Execute">
-        <command>alacritty -e ranger</command>
-      </action>
-    </keybind>
-    <keybind key="C-A-h">
-      <action name="Execute">
-        <command>alacritty -e htop</command>
+        <command>kitty -e ranger</command>
       </action>
     </keybind>
     <!-- Misc -->
