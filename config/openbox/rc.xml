@@ -91,10 +91,10 @@
   </resize>
   <!-- Margin -->
   <margins>
-    <top>48</top>
-    <bottom>10</bottom>
-    <left>10</left>
-    <right>10</right>
+    <top>35</top>
+    <bottom>15</bottom>
+    <left>5</left>
+    <right>5</right>
   </margins>
   <!-- Dock -->
   <dock>
@@ -171,18 +171,6 @@
       </action>
     </keybind>
     <!-- Action : GoToDesktop -->
-    <keybind key="C-A-Right">
-      <action name="GoToDesktop">
-        <to>next</to>
-        <wrap>yes</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Left">
-      <action name="GoToDesktop">
-        <to>previous</to>
-        <wrap>yes</wrap>
-      </action>
-    </keybind>
     <keybind key="W-1">
       <action name="GoToDesktop">
         <to>1</to>
@@ -208,23 +196,6 @@
         <to>5</to>
       </action>
     </keybind>
-    <!-- Action : Add/Remove Desktop -->
-    <keybind key="W-equal">
-      <action name="AddDesktop">
-        <where>last</where>
-      </action>
-      <action name="Execute">
-        <command>dunstify -u low -h string:x-dunst-stack-tag:obaction "Added New Desktop"</command>
-      </action>
-    </keybind>
-    <keybind key="W-minus">
-      <action name="RemoveDesktop">
-        <where>last</where>
-      </action>
-      <action name="Execute">
-        <command>dunstify -u low -h string:x-dunst-stack-tag:obaction "Removed Last Desktop"</command>
-      </action>
-    </keybind>
     <!-- Action : ToggleShowDesktop -->
     <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
@@ -246,20 +217,6 @@
     </keybind>
     <!-- ######## Window Actions ######## -->
     <!-- Action : SendToDesktop -->
-    <keybind key="W-S-Right">
-      <action name="SendToDesktop">
-        <to>next</to>
-        <wrap>yes</wrap>
-        <follow>yes</follow>
-      </action>
-    </keybind>
-    <keybind key="W-S-Left">
-      <action name="SendToDesktop">
-        <to>previous</to>
-        <wrap>yes</wrap>
-        <follow>yes</follow>
-      </action>
-    </keybind>
     <keybind key="S-W-1">
       <action name="SendToDesktop">
         <desktop>1</desktop>
@@ -302,33 +259,6 @@
       <action name="MoveRelative">
         <x>-20</x>
         <y>0</y>
-      </action>
-    </keybind>
-    <keybind key="W-A-Right">
-      <action name="MoveRelative">
-        <x>20</x>
-        <y>0</y>
-      </action>
-    </keybind>
-    <!-- Action : ResizeRelative -->
-    <keybind key="W-C-Right">
-      <action name="ResizeRelative">
-        <right>20</right>
-      </action>
-    </keybind>
-    <keybind key="W-C-Left">
-      <action name="ResizeRelative">
-        <right>-20</right>
-      </action>
-    </keybind>
-    <keybind key="W-C-Down">
-      <action name="ResizeRelative">
-        <bottom>20</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-C-Up">
-      <action name="ResizeRelative">
-        <bottom>-20</bottom>
       </action>
     </keybind>
     <!-- Action: Interactive Move/Resize -->

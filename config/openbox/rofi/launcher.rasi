@@ -10,8 +10,9 @@ configuration {
     display-run:                " Run";
     display-filebrowser:        " Files";
     display-window:             " Windows";
-	drun-display-format:        "{name}";
-	window-format:              "{c} · {t}";
+	  icon-theme:                 "Papirus";
+    drun-display-format:        "{name}";
+    window-format:              "{c} · {t}";
 }
 
 /*****----- Global Properties -----*****/
