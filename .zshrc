@@ -17,11 +17,13 @@ elif command -v vim > /dev/null 2>&1; then
 fi
 export VISUAL="${EDITOR}"
 
-export PATH="${HOME}/.bun/bin:${PATH}"
 
 #
 # Set environment variables for programming languages
 #
+
+#Bun
+export PATH="${HOME}/.bun/bin:${PATH}"
 
 # rust
 if command -v cargo > /dev/null 2>&1; then
@@ -65,13 +67,14 @@ export LD_LIBRARY_PATH
 # Set zsh aliases
 #
 
-if command -v nvim > /dev/null 2>&1; then
-  alias vi='nvim '
-  alias vim='nvim '
-  alias vimdiff='nvim -d '
-elif command -v vim > /dev/null 2>&1; then
-  alias vi='vim '
-fi
+# if command -v nvim > /dev/null 2>&1; then
+#   alias vi='nvim '
+#   alias vim='nvim '
+#   alias vimdiff='nvim -d '
+# elif command -v vim > /dev/null 2>&1; then
+#   alias vi='vim '
+# fi
+
 alias sudo='sudo '
 alias visudo='EDITOR=${EDITOR} visudo '
 alias scp='noglob scp'

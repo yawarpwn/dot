@@ -2,9 +2,9 @@
 
 ## Scrolling
 
-Control-d / Control-u: Desplazar hacia abajo / arriba por media pantalla.
-Control-f / Control-b: Desplazar hacia adelante / hacia atrás por una pantalla completa.
-Control-y / Control-e: Desplazar una línea a la vez sin mover el cursor.
+`Ctrl-d | Ctrl-u` Desplazar hacia abajo / arriba por media pantalla.
+`Ctrl-f | Ctrl-b` Desplazar hacia adelante / hacia atrás por una pantalla completa.
+`Ctrl-y | Ctrl-e` Desplazar una línea a la vez sin mover el cursor.
 
 - `zz` scroll to center
 - `zt` scroll to top
@@ -13,3 +13,15 @@ Control-y / Control-e: Desplazar una línea a la vez sin mover el cursor.
 #### Saltar a Líneas Específicas
 
 Ir a Línea: Usa `línea_númeroG` (por ejemplo, `100G`) para saltar a una línea específica.
+
+## keyboards
+
+- `Space + qq` Quit nvim
+- `Space + Space` Find file
+- `100G or :100<cr>` go specific line
+- `gi` Last insert mode
+- `ctrl + r` open register in insert mode and comand mode
+- `ctrl + y` accept in command mode
+- `ctrl+f , ctrl +b` scroll up , scroll down
+- `ctrl+y, ctrl + e` scroll single line
+- `space + cf` open file config

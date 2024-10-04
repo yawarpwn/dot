@@ -24,3 +24,5 @@ class Foo {
 for (const iterator of object) {
  console.log("get") 
 }
+
+myObj.methodName("foo", "bar", "baz")
