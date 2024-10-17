@@ -152,36 +152,6 @@ function check_installed {
   fi
 }
 
-function install_debian_packages {
-  local package
-  local to_install=()
-
-  # Leer cada línea del archivo proporcionado como argumento
-  while read -r package; do
-    # Ignorar líneas vacías
-    [ -z "${package}" ] && continue
-
-    # Comprobar si el paquete está instalado utilizando dpkg
-    if dpkg -l | grep -q "^ii\s*${package}"; then
-      # Si el paquete está instalado, mostrar un mensaje y omitirlo
-      show_listitem "${package@Q} package already installed. Skipping."
-
-      # Si el paquete no está instalado, se añade a la lista de instalación
-    else
-      to_install+=("${package}")
-    fi
-  done <"${1}" # Leer desde el archivo cuyo nombre se pasa como argumento
-
-  # Comprobar si hay paquetes que necesitan ser instalados
-  if [[ ${#to_install[@]} -gt 0 ]]; then
-    # Actualizar la lista de paquetes disponibles desde los repositorios
-    sudo apt update
-
-    # Instalar los paquetes que no están instalados, sin pedir confirmación
-    sudo apt install -y "${to_install[@]}"
-  fi
-}
-
 function check_aur_installed {
   local pkgbuilddir="${HOME}/.pkgbuild"
   local aurprefix="https://aur.archlinux.org"
@@ -379,23 +349,23 @@ function copy_config_file {
   local source="${1}"
   local dest="${2}"
 
-  if ! [ -f "${source}" ]; then
+  if ! [ -e "${source}" ]; then
     show_error "${source@Q} not found. Exiting."
     exit 1
   fi
 
   show_info "Copying ${source@Q} to ${dest@Q}."
-  if [ -f "${dest}" ]; then
+  if [ -e "${dest}" ]; then
     if ! cmp -s "${source}" "${dest}"; then
       show_info "Backing up existing ${dest@Q}."
       mv -v "${dest}" "${dest}_$(date +%Y%m%d-%k%M%S).bak"
-      cp -v "${source}" "${dest}"
+      cp -ri "${source}" "${dest}"
     else
       show_info "${dest} already set."
     fi
   else
     mkdir -p "$(dirname "${dest}")"
-    cp -v "${source}" "${dest}"
+    cp -ri "${source}" "${dest}"
   fi
 }
 

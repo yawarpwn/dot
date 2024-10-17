@@ -4,6 +4,36 @@ DIR="$(dirname "$0")"
 ##
 . "$DIR"/utils.sh
 
+function install_debian_packages {
+  local package
+  local to_install=()
+
+  # Leer cada línea del archivo proporcionado como argumento
+  while read -r package; do
+    # Ignorar líneas vacías
+    [ -z "${package}" ] && continue
+
+    # Comprobar si el paquete está instalado utilizando dpkg
+    if dpkg -l | grep -q "^ii\s*${package}"; then
+      # Si el paquete está instalado, mostrar un mensaje y omitirlo
+      show_listitem "${package@Q} package already installed. Skipping."
+
+      # Si el paquete no está instalado, se añade a la lista de instalación
+    else
+      to_install+=("${package}")
+    fi
+  done <"${1}" # Leer desde el archivo cuyo nombre se pasa como argumento
+
+  # Comprobar si hay paquetes que necesitan ser instalados
+  if [[ ${#to_install[@]} -gt 0 ]]; then
+    # Actualizar la lista de paquetes disponibles desde los repositorios
+    sudo apt update
+
+    # Instalar los paquetes que no están instalados, sin pedir confirmación
+    sudo apt install -y "${to_install[@]}"
+  fi
+}
+
 function set_zsh_shell {
   local zshrc="${DIR}/dotfiles/zshrc"
   local p10krc="${DIR}/dotfiles/p10k"
@@ -33,6 +63,21 @@ function install_zsh {
 
   show_header "Installing Zsh."
   check_installed "${zsh}"
+  show_success "Zsh installed."
+
+  mkdir -p "${HOME}/.local/share/zsh/site-functions"
+
+  copy_config_file "${zshrc}" "${HOME}/.zshrc"
+  copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
+}
+
+function install_zsh_debian {
+  local zsh="${DIR}/packages/zsh.list"
+  local zshrc="$HOME/dot/.zshrc"
+  local p10krc="${DIR}/dotfiles/p10k"
+
+  show_header "Installing Zsh."
+  install_debian_packages "${zsh}"
   show_success "Zsh installed."
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
