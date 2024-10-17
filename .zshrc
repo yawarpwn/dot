@@ -22,6 +22,9 @@ export VISUAL="${EDITOR}"
 # Set environment variables for programming languages
 #
 
+#Neovim 
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
 #Bun
 export PATH="${HOME}/.bun/bin:${PATH}"
 
@@ -164,3 +167,4 @@ eval "$(zoxide init zsh)"
 
 unset -f include
 autoload -U compinit && compinit
+
