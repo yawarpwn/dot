@@ -98,14 +98,29 @@ alias gcp="git commit -p"
 alias gpp="git push"
 alias gp="git pull"
 
+
+
 #files & Diectories
 alias mv="mv -iv"
 alias cp="cp -riv"
 alias mkdir="mkdir -p"
-alias ls='eza --color=always --icons --group-directories-first'
-alias la='eza --color=always --icons --group-directories-first --all'
-alias ll='eza --color=always --icons --group-directories-first --all --long'
-alias la='ls -lAh'
+
+if command -v eza >/dev/null;then
+  alias ls='eza --color=always --icons --group-directories-first'
+  alias la='eza --color=always --icons --group-directories-first --all'
+  alias ll='eza --color=always --icons --group-directories-first --all --long'
+  alias la='ls -lAh'
+elif command -v exa >/dev/null; then
+  alias ls='exa --color=always --icons --group-directories-first'
+  alias la='exa --color=always --icons --group-directories-first --all'
+  alias ll='exa --color=always --icons --group-directories-first --all --long'
+  alias la='ls -lAh'
+else
+  alias ls='ls --color=always'
+  alias la='ls --color=always'
+  alias ll='ls --color=always'
+  alias la='ls -lAh'
+fi
 
 function superupgrade {
   sudo sh -c 'pacman -Syu && paccache -r && paccache -ruk0'

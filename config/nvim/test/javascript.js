@@ -8,21 +8,21 @@ const leg = (name) => {
 const name = "name";
 
 const sum = () => {
-  const value =[10, 20, 30, 40] 
-}
+  const value = [10, 20, 30, 40];
+};
 
 class Foo {
   geName = function bar() {
-    let obj  = {}
-    
-  }
+    let obj = {};
+  };
 }
 
-
-"suelto"
+("suelto");
 
 for (const iterator of object) {
- console.log("get") 
+  console.log("get");
 }
 
-myObj.methodName("foo", "bar", "baz")
+myObj.methodName("foo", "bar", "baz");
+
+console.log("prevent");

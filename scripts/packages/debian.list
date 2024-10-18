@@ -2,7 +2,7 @@ git
 stow
 gh
 ripgrep
-eza
+exa
 fd-find
 gcc
 unzip 
@@ -13,3 +13,4 @@ man-db
 fzf
 zsh-syntax-highlighting
 zsh-autosuggestions
+wl-clipboard

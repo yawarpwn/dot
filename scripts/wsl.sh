@@ -6,50 +6,45 @@ source "$DIR"/utils.sh
 source "$DIR"/functions.sh
 
 function set_zsh_shell_debian {
-  show_header "Setting zsh shell"
+  show_header "Configurando Zsh como shell"
   local zshrc="${DIR}/../.zshrc"
   local p10krc="${DIR}/../.p10k.zsh"
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
 
-  #Install pk10
+  # Instalar powerlevel10k si no está instalado
   if [ ! -d "$HOME"/powerlevel10k ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
   else
-    show_success "powerlevel10k is already installed"
+    show_success "powerlevel10k ya está instalado"
   fi
 
+  # Verificar si Zsh está instalado
   if ! command -v zsh >/dev/null 2>&1; then
-    show_warning "Zsh not installed. Skipping."
+    show_warning "Zsh no está instalado. Saltando."
     return
   fi
 
+  # Cambiar el shell de inicio de sesión a Zsh si no está configurado
   if ! grep -q "zsh" <(getent passwd "$(whoami)"); then
-    show_info "Changing login shell to Zsh. Provide your password."
+    show_info "Cambiando el shell de inicio de sesión a Zsh. Proporciona tu contraseña."
     chsh -s /bin/zsh
   else
-    show_info "Default shell already set to Zsh."
+    show_info "El shell predeterminado ya está configurado a Zsh."
   fi
 
+  # Copiar archivos de configuración
   copy_config_file "${zshrc}" "${HOME}/.zshrc"
   copy_config_file "${p10krc}" "${HOME}/.p10k.zsh"
 }
 
-function set_bash_shell {
-  show_info "setting bash shell"
-  local bashrc="$DIR/../.bashrc"
-  mv "${HOME}/.bashrc" "${HOME}/.bashrc-back"
-  copy_config_file "${bashrc}" "${HOME}/.bashrc"
-}
-
 function install_neovim() {
-
   if ! command -v nvim >/dev/null; then
     local temp_dir=$(mktemp -d)
     local url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+
     curl -L -o "$temp_dir/nvim-linux64.tar.gz" "$url"
 
-    # Verificar si la descarga fue exitosa
     if [ $? -eq 0 ]; then
       echo "Descarga completada: $temp_dir/nvim-linux64.tar.gz"
 
@@ -70,52 +65,73 @@ function install_neovim() {
 
     sudo ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim
 
-    # Borrar el directorio temporal
-    rmdir "$temp_dir"
+    rmdir "$temp_dir" # Borrar el directorio temporal
   else
-    show_success "Neovim is already installed"
+    show_success "Neovim ya está instalado"
   fi
 
   copy_config_file "/home/johneyder/dot/config/nvim" "/home/johneyder/.config/nvim"
-
 }
 
 function install_fnm {
   if ! command -v fnm >/dev/null; then
     curl -fsSL https://fnm.vercel.app/install | bash
   else
-    show_success "Fnm package already installed"
+    show_success "Fnm ya está instalado"
+  fi
+
+  if ! command -v node >/dev/null; then
+    fnm install --lts
+  else
+    show_success "Node.js ya está instalado"
   fi
 }
-
 function install_debian_deps {
   local debian_deps="$DIR/packages/debian.list"
-  show_header "Check dependencies"
-  local package
+  show_header "Verificando dependencias"
+
   while read -r package; do
     if ! dpkg -l | grep -qw "${package}"; then
-      show_info "${package@Q} is needed for this script"
+      show_info "${package@Q} es necesario para este script"
       sudo apt install -y "$package"
-      show_success "${package@Q} is already installed."
+      show_success "${package@Q} ya está instalado."
     else
-      show_success "${package@Q} is already installed."
+      show_success "${package@Q} ya está instalado."
     fi
   done <"${debian_deps}"
 }
 
-function install_wsl() {
-  #Instalar eza
-  if ! command -v eza >/dev/null; then
-    sudo mkdir -p /etc/apt/keyrings
-    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-    sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-    sudo apt update
+function install_lazygit {
+  if ! command -v lazygit >/dev/null; then
+    local tempdir="$(mktemp -d)"
+
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+
+    curl -Lo "${tempdir}/lazygit.tar.gz" "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+
+    pushd "${tempdir}" >/dev/null || exit
+
+    tar xf lazygit.tar.gz lazygit
+
+    sudo install lazygit /usr/local/bin
+
+    popd >/dev/null || exit
+
+    rm -rf "${tempdir}"
+  else
+    show_success "LazyGit ya está instalado."
   fi
-  install_debian_deps
-  install_fnm
-  install_neovim
-  set_zsh_shell_debian
 }
 
-install_wsl
+# Función principal para instalar componentes en Debian WSL
+function install_wsl() {
+  install_debian_deps  # Instalar dependencias necesarias
+  install_fnm          # Instalar fnm y Node.js
+  install_neovim       # Instalar Neovim
+  set_zsh_shell_debian # Configurar Zsh como shell
+  install_lazygit      # Instalar LazyGit
+  # Copiar archivo de configuración de Bash
+  copy_config_file "${bashrc}" "${HOME}/.bashrc"
+}
+
+install_wsl # Llamar a la función principal para iniciar la instalación
