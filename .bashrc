@@ -27,22 +27,11 @@ export VISUAL="${EDITOR}"
 # Set environment variables for programming languages
 #
 
-# go
-if command -v go >/dev/null 2>&1; then
-  export GOPATH="${HOME}/.go"
-  if ! [[ "${PATH}" =~ :?${GOPATH}:? ]]; then
-    export PATH="${GOPATH}/bin:${PATH}"
-  fi
-fi
-
-# ruby
-if command -v ruby >/dev/null 2>&1; then
-  GEM_HOME=$(gem env user_gemhome)
-  export GEM_HOME
-  if ! [[ "${PATH}" =~ :?${GEM_HOME}/bin:? ]]; then
-    PATH="${GEM_HOME}/bin:${PATH}"
-    export PATH
-  fi
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$HOME/.local/share/fnm:$PATH"
+  eval "$(fnm env)"
 fi
 
 # rust
@@ -66,34 +55,12 @@ if command -v npm >/dev/null 2>&1; then
   fi
 fi
 
-# R
-if command -v R Rscript >/dev/null 2>&1; then
-  R_LIBS_USER="$(Rscript --version)"
-  R_LIBS_USER="${R_LIBS_USER%% ([0-9\-]*)}"
-  R_LIBS_USER="${HOME}/.R/${R_LIBS_USER##Rscript (R) version }"
-  if [ -n "${R_LIBS_USER}" ]; then
-    export R_LIBS_USER
-    if ! [ -d "${R_LIBS_USER}" ]; then
-      mkdir -p "${R_LIBS_USER}"
-    fi
-    alias R='R --no-save '
-    if [ -d /usr/share/mathjax ]; then
-      export RMARKDOWN_MATHJAX_PATH=/usr/share/mathjax
-    fi
-  fi
-fi
-
 # beet autocompletion
 if command -v beet >/dev/null 2>&1; then
   if ! [ -f "/usr/share/bash-completion/completions/beet" ] &&
     ! [ -f "${HOME}/.local/share/bash-completion/completions/beet" ]; then
     eval "$(beet completion)"
   fi
-fi
-
-# custom scripts
-if ! [[ "${PATH}" =~ :?${HOME}/.scripts:? ]]; then
-  export PATH="${HOME}/.scripts:${PATH}"
 fi
 
 # local executables
@@ -114,13 +81,6 @@ export LD_LIBRARY_PATH
 # Set bash aliases
 #
 
-if command -v nvim >/dev/null 2>&1; then
-  alias vi='nvim '
-  alias vim='nvim '
-  alias vimdiff='nvim -d '
-elif command -v vim >/dev/null 2>&1; then
-  alias vi='vim '
-fi
 alias sudo='sudo '
 alias visudo='EDITOR=${EDITOR} visudo '
 alias grep='grep --color=auto'
@@ -153,29 +113,6 @@ function make_silent {
     eval "${cmd}"
   fi
 }
-
-function run_silent {
-  if command -v "${1}" >/dev/null 2>&1; then
-    local bin="${1}"
-    local args=("${@:2}")
-    (${bin} "${args[@]}" >/dev/null 2>&1 &)
-  fi
-}
-
-make_silent ebook-viewer
-make_silent eog
-make_silent evince
-make_silent feh
-make_silent firefox
-make_silent gimp
-make_silent gitg
-make_silent gitk
-make_silent gwenview
-make_silent inkscape
-make_silent krita
-make_silent okular
-
-unset -f make_silent
 
 if { command -v yt-dlp && ! command -v youtube-dl; } >/dev/null 2>&1; then
   alias youtube-dl='yt-dlp '

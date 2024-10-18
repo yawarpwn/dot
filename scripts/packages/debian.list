@@ -11,3 +11,5 @@ zoxide
 curl
 man-db
 fzf
+zsh-syntax-highlighting
+zsh-autosuggestions
