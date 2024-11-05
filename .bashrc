@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#
+# bind '"\C-o": "\C-k"'
+
 # ~/.bashrc
-#
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return

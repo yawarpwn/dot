@@ -1,6 +1,7 @@
 # sudo pacman -S cups
 # sudo systemctl enable --now cups
 # sudo pacman -S hplip
+# sudo pacman -S python-pyqt5
 # sudo hp-setup -i
 # https://ftp.hp.com/pub/softlib/software13/printers/CLP150/uld-hp_V1.00.39.12_00.15.tar.gz
 # system-config-printer
