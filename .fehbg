@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# feh --bg-fill --no-fehbg --randomize /usr/share/backgrounds/*
-feh --bg-fill --no-fehbg /usr/share/backgrounds/batman.jpg
