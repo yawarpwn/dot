@@ -28,9 +28,9 @@ export VISUAL="${EDITOR}"
 #
 
 # fnm
-FNM_PATH="$HOME/.local/share/fnm"
+FNM_PATH="$HOME/.fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="$HOME/.local/share/fnm:$PATH"
+  export PATH="$HOME/.fnm:$PATH"
   eval "$(fnm env)"
 fi
 
