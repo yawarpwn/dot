@@ -9,5 +9,6 @@ autohotkey.ahk
 .git
 .gitignore
 .gitconfig
+start.sh
 README.md
 rc.html
